@@ -7,6 +7,8 @@
 // import static org.junit.jupiter.api.Assertions.assertNull;
 // import static org.junit.jupiter.api.Assertions.assertTrue;
 
+// import java.io.File;
+// import java.io.IOException;
 // import java.util.ArrayList;
 // import java.util.Arrays;
 // import java.util.HashMap;
@@ -19,6 +21,7 @@
 // import org.junit.jupiter.api.BeforeEach;
 // import org.junit.jupiter.api.Test;
 // import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Value;
 // import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 // import org.springframework.context.annotation.ComponentScan;
 // import org.springframework.test.web.servlet.MockMvc;
@@ -38,21 +41,32 @@
 // import com.example.service.OrderService;
 // import com.example.service.ProductService;
 // import com.example.service.UserService;
-// import com.example.utils.Methods;
 // import com.fasterxml.jackson.core.JsonProcessingException;
 // import com.fasterxml.jackson.core.type.TypeReference;
 // import com.fasterxml.jackson.databind.ObjectMapper;
 // @ComponentScan(basePackages = "com.example.*")
 // @WebMvcTest
 // class MiniProject1ApplicationTests {
+
+// 	@Value("${spring.application.userDataPath}")
+//     private String userDataPath;
+
+//     @Value("${spring.application.productDataPath}")
+//     private String productDataPath;
+
+//     @Value("${spring.application.orderDataPath}")
+//     private String orderDataPath;
+
+//     @Value("${spring.application.cartDataPath}")
+//     private String cartDataPath;
+
 // 	@Autowired
 // 	private MockMvc mockMvc;
 
 // 	@Autowired
 // 	private ObjectMapper objectMapper;
 
-// 	@Autowired
-// 	private Methods methods;
+	
 
 // 	@Autowired
 // 	private UserService userService;
@@ -77,6 +91,171 @@
 // 	@Autowired
 // 	private OrderRepository orderRepository;
 
+// 	public void overRideAll(){
+//         try{
+//             objectMapper.writeValue(new File(userDataPath), new ArrayList<User>());
+//             objectMapper.writeValue(new File(productDataPath), new ArrayList<Product>());
+//             objectMapper.writeValue(new File(orderDataPath), new ArrayList<Order>());
+//             objectMapper.writeValue(new File(cartDataPath), new ArrayList<Cart>());
+//         } catch (IOException e) {
+//             throw new RuntimeException("Failed to write to JSON file", e);
+//         }
+//     }
+
+//     public Object find(String typeString, Object toFind){
+//         switch(typeString){
+//             case "User":
+//                 ArrayList<User> users = getUsers();
+                
+//                 for(User user: users){
+//                     if(user.getId().equals(((User)toFind).getId())){
+//                         return user;
+//                     }
+//                 }
+//                 break;
+//             case "Product":
+//                 ArrayList<Product> products = getProducts();
+//                 for(Product product: products){
+//                     if(product.getId().equals(((Product)toFind).getId())){
+//                         return product;
+//                     }
+//                 }
+//                 break;
+//             case "Order":
+//                 ArrayList<Order> orders = getOrders();
+//                 for(Order order: orders){
+//                     if(order.getId().equals(((Order)toFind).getId())){
+//                         return order;
+//                     }
+//                 }
+//                 break;
+//             case "Cart":
+//                 ArrayList<Cart> carts = getCarts();
+//                 for(Cart cart: carts){
+//                     if(cart.getId().equals(((Cart)toFind).getId())){
+//                         return cart;
+//                     }
+//                 }
+//                 break;
+//         }
+//         return null;
+//     }
+
+//     public Product addProduct(Product product) {
+//         try {
+//            File file = new File(productDataPath);
+//            ArrayList<Product> products;
+//            if (!file.exists()) {
+//                products = new ArrayList<>();
+//            } 
+//            else {
+//                products = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, Product[].class)));                
+//            }
+//            products.add(product);
+//            objectMapper.writeValue(file, products);
+//            return product;
+//        } catch (IOException e) {
+//            throw new RuntimeException("Failed to write to JSON file", e);
+//        }
+//    }
+//    public ArrayList<Product> getProducts() {
+//        try {
+//            File file = new File(productDataPath);
+//            if (!file.exists()) {
+//                return new ArrayList<>();
+//            }
+//            return new ArrayList<Product>(Arrays.asList(objectMapper.readValue(file, Product[].class)));
+//        } catch (IOException e) {
+//            throw new RuntimeException("Failed to read from JSON file", e);
+//        }
+//    }
+
+//    public User addUser(User user) {
+//        try {
+//            File file = new File(userDataPath);
+//            ArrayList<User> users;
+//            if (!file.exists()) {
+//                users = new ArrayList<>();
+//            } 
+//            else {
+//                users = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, User[].class)));                
+//            }
+//            users.add(user);
+//            objectMapper.writeValue(file, users);
+//            return user;
+//        } catch (IOException e) {
+//            throw new RuntimeException("Failed to write to JSON file", e);
+//        }
+//    }
+//     public ArrayList<User> getUsers() {
+//          try {
+//               File file = new File(userDataPath);
+//               if (!file.exists()) {
+//                 return new ArrayList<>();
+//               }
+//               return new ArrayList<User>(Arrays.asList(objectMapper.readValue(file, User[].class)));
+//          } catch (IOException e) {
+//               throw new RuntimeException("Failed to read from JSON file", e);
+//          }
+//     }
+//     public Cart addCart(Cart cart){
+//        try{
+//               File file = new File(cartDataPath);
+//               ArrayList<Cart> carts;
+//               if (!file.exists()) {
+//                 carts = new ArrayList<>();
+//               } 
+//               else {
+//                 carts = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, Cart[].class)));                
+//               }
+//               carts.add(cart);
+//               objectMapper.writeValue(file, carts);
+//               return cart;
+//          } catch (IOException e) {
+//               throw new RuntimeException("Failed to write to JSON file", e);
+//        }
+//     }
+//     public ArrayList<Cart> getCarts() {
+//          try {
+//               File file = new File(cartDataPath);
+//               if (!file.exists()) {
+//                 return new ArrayList<>();
+//               }
+//               return new ArrayList<Cart>(Arrays.asList(objectMapper.readValue(file, Cart[].class)));
+//          } catch (IOException e) {
+//               throw new RuntimeException("Failed to read from JSON file", e);
+//          }
+//     }
+//     public Order addOrder(Order order){
+//          try{
+//                   File file = new File(orderDataPath);
+//                   ArrayList<Order> orders;
+//                   if (!file.exists()) {
+//                  orders = new ArrayList<>();
+//                   } 
+//                   else {
+//                  orders = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, Order[].class)));                
+//                   }
+//                   orders.add(order);
+//                   objectMapper.writeValue(file, orders);
+//                   return order;
+//             } catch (IOException e) {
+//                   throw new RuntimeException("Failed to write to JSON file", e);
+//          }
+//     }
+//     public ArrayList<Order> getOrders() {
+//          try {
+//               File file = new File(orderDataPath);
+//               if (!file.exists()) {
+//                 return new ArrayList<>();
+//               }
+//               return new ArrayList<Order>(Arrays.asList(objectMapper.readValue(file, Order[].class)));
+//          } catch (IOException e) {
+//               throw new RuntimeException("Failed to read from JSON file", e);
+//          }
+//     }
+
+
 
 // 	private UUID userId;
 // 	private User testUser;
@@ -86,7 +265,7 @@
 // 		testUser = new User();
 // 		testUser.setId(userId);
 // 		testUser.setName("Test User");
-// 		methods.overRideAll();
+// 		overRideAll();
 // 	}
 
 // 	// ------------------------ User Tests -------------------------
@@ -102,7 +281,7 @@
 // 			"UserRepository should contain a method called addUser"
 // 		);
 // 		userRepository.addUser(testUser1);
-// 		assertNotNull(methods.find("User",testUser1),"User should be added correctly");
+// 		assertNotNull(find("User",testUser1),"User should be added correctly");
 // 	}
 // 	@Test
 // 	void testAddUserService() {
@@ -115,7 +294,7 @@
 // 			"UserService should contain a method called addUser"
 // 		);
 // 		userService.addUser(testUser2);
-// 		assertNotNull(methods.find("User",testUser2),"User should be added correctly");
+// 		assertNotNull(find("User",testUser2),"User should be added correctly");
 // 	}
 
 // 	@Test
@@ -131,7 +310,7 @@
 // 				.andExpect(MockMvcResultMatchers.status().isOk());
 // 		boolean found=false;
 
-// 		for(User user: methods.getUsers()){
+// 		for(User user: getUsers()){
 // 			if(user.getId().equals(testUser3.getId()) && user.getName().equals(testUser3.getName())){
 // 				found=true;
 // 				break;
@@ -149,12 +328,12 @@
 // 				.anyMatch(method -> method.getName().equals("getUsers")),
 // 			"UserRepository should contain a method called getUsers"
 // 		);
-// 		methods.addUser(testUser4);
+// 		addUser(testUser4);
 		
 		
 		
-// 		assertEquals(methods.getUsers().size(), userRepository.getUsers().size(), "Users should be returned correctly");
-// 		assertNotNull(methods.find("User", testUser4),"User should be returned correctly");
+// 		assertEquals(getUsers().size(), userRepository.getUsers().size(), "Users should be returned correctly");
+// 		assertNotNull(find("User", testUser4),"User should be returned correctly");
 // 	}
 	
 
@@ -167,15 +346,15 @@
 // 				.anyMatch(method -> method.getName().equals("getUsers")),
 // 			"UserService should contain a method called getUsers"
 // 		);
-// 		methods.addUser(testUser5);
+// 		addUser(testUser5);
 		
-// 		assertEquals(methods.getUsers().size(), userService.getUsers().size(), "Users should be returned correctly");
-// 		assertNotNull(methods.find("User", testUser5),"User should be returned correctly");	}
+// 		assertEquals(getUsers().size(), userService.getUsers().size(), "Users should be returned correctly");
+// 		assertNotNull(find("User", testUser5),"User should be returned correctly");	}
 
 // 	@Test
 // 	void testGetUsersEndPoint() throws Exception {
 		
-// 		methods.addUser(testUser);
+// 		addUser(testUser);
 		
 
 // 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/user/")
@@ -185,7 +364,7 @@
 // 		String responseContent = result.getResponse().getContentAsString();
 // 		List<User> responseUsers = objectMapper.readValue(responseContent, new TypeReference<List<User>>() {});
 		
-// 		assertEquals(responseUsers.size(), methods.getUsers().size(), "Users should be returned correctly From Endpoint");
+// 		assertEquals(responseUsers.size(), getUsers().size(), "Users should be returned correctly From Endpoint");
 // 	}
 
 // 	@Test
@@ -200,7 +379,7 @@
 // 		User testUser6=new User();
 // 		testUser6.setId(UUID.randomUUID());
 // 		testUser6.setName("Test User6");
-// 		methods.addUser(testUser6);
+// 		addUser(testUser6);
 		
 // 		assertEquals(testUser6.getId(),userRepository.getUserById(testUser6.getId()).getId(),"User should be returned correctly");
 // 		assertEquals(null,userRepository.getUserById(UUID.randomUUID()), "No User Should be found if Id is not found");
@@ -219,7 +398,7 @@
 // 		User testUser7=new User();
 // 		testUser7.setId(UUID.randomUUID());
 // 		testUser7.setName("Test User7");
-// 		methods.addUser(testUser7);
+// 		addUser(testUser7);
 // 		assertEquals(testUser7.getId(), userRepository.getUserById(testUser7.getId()).getId(),"User should be returned correctly");
 // 		assertEquals(null, userRepository.getUserById(UUID.randomUUID()), "No User Should be found");
 		
@@ -230,7 +409,7 @@
 // 		User testUser8=new User();
 // 		testUser8.setId(UUID.randomUUID());
 // 		testUser8.setName("Test User8");
-// 		methods.addUser(testUser8);
+// 		addUser(testUser8);
 		
 // 		mockMvc.perform(MockMvcRequestBuilders.get("/user/{id}", testUser8.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -244,7 +423,7 @@
 // 		testUser9.setName("Test User9");
 // 		List<Order> orders = List.of(new Order(UUID.randomUUID(), testUser9.getId(), 10.0, List.of(new Product(UUID.randomUUID(), "Test Product", 10.0))));
 // 		testUser9.setOrders(orders);
-// 		methods.addUser(testUser9);
+// 		addUser(testUser9);
 		
 		
 		
@@ -266,7 +445,7 @@
 // 		testUser10.setName("Test User10");
 // 		List<Order> orders = List.of(new Order(UUID.randomUUID(), testUser10.getId(), 10.0, List.of(new Product(UUID.randomUUID(), "Test Product", 10.0))));
 // 		testUser10.setOrders(orders);
-// 		methods.addUser(testUser10);
+// 		addUser(testUser10);
 		
 // 		assertTrue(
 // 			Arrays.stream(userService.getClass().getMethods())
@@ -284,7 +463,7 @@
 // 		testUser10.setName("Test User10");
 // 		List<Order> orders = List.of(new Order(UUID.randomUUID(), testUser10.getId(), 10.0, List.of(new Product(UUID.randomUUID(), "Test Product", 10.0))));
 // 		testUser10.setOrders(orders);
-// 		methods.addUser(testUser10);		
+// 		addUser(testUser10);		
 // 		mockMvc.perform(MockMvcRequestBuilders.get("/user/{id}/orders", testUser10.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(orders)));
@@ -300,8 +479,8 @@
 // 		cart.setUserId(testUser11.getId());
 // 		Product tesProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
 // 		cart.setProducts(List.of(tesProduct));
-// 		methods.addUser(testUser11);
-// 		methods.addCart(cart);
+// 		addUser(testUser11);
+// 		addCart(cart);
 		
 // 		assertTrue(
 // 			Arrays.stream(userRepository.getClass().getMethods())
@@ -311,7 +490,7 @@
 // 		Order order = new Order(UUID.randomUUID(), testUser11.getId(), 10.0, List.of(tesProduct));
 // 		userRepository.addOrderToUser(testUser11.getId(), order);
 
-// 		assertEquals(order.getId(), methods.getUsers().getLast().getOrders().get(0).getId(),"Order should be added correctly");
+// 		assertEquals(order.getId(), getUsers().getLast().getOrders().get(0).getId(),"Order should be added correctly");
 
 		
 // 	}
@@ -326,8 +505,8 @@
 // 		cart.setUserId(testUser11.getId());
 // 		Product tesProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
 // 		cart.setProducts(List.of(tesProduct));
-// 		methods.addCart(cart);
-// 		methods.addUser(testUser11);
+// 		addCart(cart);
+// 		addUser(testUser11);
 		
 // 		assertTrue(
 // 			Arrays.stream(userService.getClass().getMethods())
@@ -337,7 +516,7 @@
 
 // 		Order order = new Order(UUID.randomUUID(), testUser11.getId(), 10.0, List.of(tesProduct));
 // 		userService.addOrderToUser(testUser11.getId(), order);
-// 		assertEquals(order.getId(), methods.getUsers().getLast().getOrders().get(0).getId(),"Order should be added correctly");
+// 		assertEquals(order.getId(), getUsers().getLast().getOrders().get(0).getId(),"Order should be added correctly");
 
 	
 // 	}
@@ -352,8 +531,8 @@
 // 		cart.setUserId(testUser11.getId());
 // 		Product tesProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
 // 		cart.setProducts(List.of(tesProduct));
-// 		methods.addCart(cart);
-// 		methods.addUser(testUser11);
+// 		addCart(cart);
+// 		addUser(testUser11);
 		
 		
 // 		mockMvc.perform(MockMvcRequestBuilders.post("/user/{id}/checkout", testUser11.getId()))
@@ -369,8 +548,8 @@
 // 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
 // 		Cart cart = new Cart(UUID.randomUUID(), testUser12.getId(), new ArrayList<>());
 		
-// 		methods.addCart(cart);
-// 		methods.addUser(testUser12);
+// 		addCart(cart);
+// 		addUser(testUser12);
 		
 // 		assertTrue(
 // 			Arrays.stream(cartRepository.getClass().getMethods())
@@ -379,7 +558,7 @@
 // 		);
 
 // 		cartRepository.addProductToCart(cart.getId(), product);
-// 		assertEquals(product.getId(), methods.getCarts().getLast().getProducts().get(0).getId(),"Product should be added correctly");
+// 		assertEquals(product.getId(), getCarts().getLast().getProducts().get(0).getId(),"Product should be added correctly");
 
 // 	}
 
@@ -390,8 +569,8 @@
 // 		testUser13.setName("Test User13");
 // 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
 // 		Cart cart = new Cart(UUID.randomUUID(), testUser13.getId(), new ArrayList<>());
-// 		methods.addUser(testUser13);
-// 		methods.addCart(cart);
+// 		addUser(testUser13);
+// 		addCart(cart);
 // 		assertTrue(
 // 			Arrays.stream(cartService.getClass().getMethods())
 // 				.anyMatch(method -> method.getName().equals("addProductToCart")),
@@ -399,7 +578,7 @@
 // 		);
 
 // 		cartService.addProductToCart(cart.getId(), product);
-// 		assertEquals(product.getId(), methods.getCarts().getLast().getProducts().get(0).getId(),"Product should be added correctly");
+// 		assertEquals(product.getId(), getCarts().getLast().getProducts().get(0).getId(),"Product should be added correctly");
 
 		
 // 	}
@@ -411,16 +590,16 @@
 // 		testUser14.setName("Test User14");
 		
 // 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		methods.addUser(testUser14);
-// 		methods.addProduct(testProduct);
+// 		addUser(testUser14);
+// 		addProduct(testProduct);
 		
 // 		mockMvc.perform(MockMvcRequestBuilders.put("/user/addProductToCart")
 // 				.param("userId", testUser14.getId().toString())
 // 				.param("productId", testProduct.getId().toString()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().string("Product added to cart"));
-// 		assertTrue(methods.getCarts().getLast().getUserId().equals(testUser14.getId()),"New Cart Should be created for user");
-// 		assertEquals(testProduct.getId(), methods.getCarts().getLast().getProducts().get(0).getId(),"Product should be added correctly");
+// 		assertTrue(getCarts().getLast().getUserId().equals(testUser14.getId()),"New Cart Should be created for user");
+// 		assertEquals(testProduct.getId(), getCarts().getLast().getProducts().get(0).getId(),"Product should be added correctly");
 // 	}
 
 // 	@Test
@@ -430,20 +609,20 @@
 // 		testUser15.setName("Test User15");
 		
 // 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		methods.addUser(testUser15);
-// 		methods.addProduct(testProduct);
+// 		addUser(testUser15);
+// 		addProduct(testProduct);
 // 		Cart cart = new Cart(UUID.randomUUID(), testUser15.getId(), new ArrayList<>(List.of(testProduct)));
-// 		methods.addCart(cart);
+// 		addCart(cart);
 
 // 		assertTrue(
 // 			Arrays.stream(cartRepository.getClass().getMethods())
 // 				.anyMatch(method -> method.getName().equals("deleteProductFromCart")),
 // 			"CartRepository should contain a method called deleteProductFromCart"
 // 		);
-// 		System.out.println("before "+methods.getCarts());
+// 		System.out.println("before "+getCarts());
 // 		cartRepository.deleteProductFromCart(cart.getId(), testProduct);
-// 		System.out.println("after "+methods.getCarts());
-// 		assertEquals(0, methods.getCarts().getLast().getProducts().size(),"Product should be deleted correctly");
+// 		System.out.println("after "+getCarts());
+// 		assertEquals(0, getCarts().getLast().getProducts().size(),"Product should be deleted correctly");
 		
 		
 // 	}
@@ -455,10 +634,10 @@
 // 		testUser15.setName("Test User15");
 		
 // 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		methods.addUser(testUser15);
-// 		methods.addProduct(testProduct);
+// 		addUser(testUser15);
+// 		addProduct(testProduct);
 // 		Cart cart = new Cart(UUID.randomUUID(), testUser15.getId(), new ArrayList<>(List.of(testProduct)));
-// 		methods.addCart(cart);
+// 		addCart(cart);
 		
 // 		assertTrue(
 // 			Arrays.stream(cartService.getClass().getMethods())
@@ -467,7 +646,7 @@
 // 		);
 
 // 		cartService.deleteProductFromCart(cart.getId(), testProduct);
-// 		assertEquals(0, methods.getCarts().getLast().getProducts().size(),"Product should be deleted correctly");
+// 		assertEquals(0, getCarts().getLast().getProducts().size(),"Product should be deleted correctly");
 // 	}
 
 // 	@Test
@@ -477,10 +656,10 @@
 // 		testUser15.setName("Test User15");
 		
 // 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		methods.addUser(testUser15);
-// 		methods.addProduct(testProduct);
+// 		addUser(testUser15);
+// 		addProduct(testProduct);
 // 		Cart cart = new Cart(UUID.randomUUID(), testUser15.getId(), new ArrayList<>(List.of(testProduct)));
-// 		methods.addCart(cart);
+// 		addCart(cart);
 		
 // 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/deleteProductFromCart")
 // 				.param("userId", cart.getUserId().toString())
@@ -495,10 +674,10 @@
 // 		testUser15.setName("Test User15");
 		
 // 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		methods.addUser(testUser15);
-// 		methods.addProduct(testProduct);
+// 		addUser(testUser15);
+// 		addProduct(testProduct);
 // 		// Cart cart = new Cart(UUID.randomUUID(), testUser15.getId(), new ArrayList<>(List.of(testProduct)));
-// 		// methods.addCart(cart);
+// 		// addCart(cart);
 		
 // 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/deleteProductFromCart")
 // 				.param("userId", testUser15.getId().toString())
@@ -513,7 +692,7 @@
 // 		User testUser16=new User();
 // 		testUser16.setId(UUID.randomUUID());
 // 		testUser16.setName("Test User16");
-// 		methods.addUser(testUser16);
+// 		addUser(testUser16);
 // 		assertTrue(
 // 			Arrays.stream(userRepository.getClass().getMethods())
 // 				.anyMatch(method -> method.getName().equals("deleteUserById")),
@@ -521,7 +700,7 @@
 // 		);
 		
 // 		userRepository.deleteUserById(testUser16.getId());
-// 		assertNull(methods.find("User", testUser16),"User should be deleted correctly");
+// 		assertNull(find("User", testUser16),"User should be deleted correctly");
 
 		
 // 	}
@@ -531,7 +710,7 @@
 // 		User testUser17=new User();
 // 		testUser17.setId(UUID.randomUUID());
 // 		testUser17.setName("Test User17");
-// 		methods.addUser(testUser17);
+// 		addUser(testUser17);
 
 // 		assertTrue(
 // 			Arrays.stream(userService.getClass().getMethods())
@@ -540,7 +719,7 @@
 // 		);
 		
 // 		userService.deleteUserById(testUser17.getId());
-// 		assertNull(methods.find("User", testUser17),"User should be deleted correctly");
+// 		assertNull(find("User", testUser17),"User should be deleted correctly");
 
 // 	}
 
@@ -549,7 +728,7 @@
 // 		User testUser18=new User();
 // 		testUser18.setId(UUID.randomUUID());
 // 		testUser18.setName("Test User18");
-// 		methods.addUser(testUser18);
+// 		addUser(testUser18);
 		
 // 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{id}", testUser18.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -560,7 +739,7 @@
 // 		User testUser18=new User();
 // 		testUser18.setId(UUID.randomUUID());
 // 		testUser18.setName("Test User18");
-// 		methods.addUser(testUser18);
+// 		addUser(testUser18);
 		
 // 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{id}", UUID.randomUUID()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -583,7 +762,7 @@
 // 		testProduct1.setName("Test Product");
 // 		testProduct1.setPrice(10.0);
 // 		productRepository.addProduct(testProduct1);
-// 		assertNotNull(methods.find("Product",testProduct1),"Product should be added correctly");
+// 		assertNotNull(find("Product",testProduct1),"Product should be added correctly");
 
 // 	}
 // 	@Test
@@ -599,7 +778,7 @@
 // 		testProduct2.setName("Test Product");
 // 		testProduct2.setPrice(10.0);
 // 		productService.addProduct(testProduct2);
-// 		assertNotNull(methods.find("Product",testProduct2),"Product should be added correctly");
+// 		assertNotNull(find("Product",testProduct2),"Product should be added correctly");
 // 	}
 // 	@Test
 // 	void testAddProductEndPoint() throws JsonProcessingException, Exception{
@@ -619,7 +798,7 @@
 		
 // 		boolean found=false;
 
-// 		for(Product product: methods.getProducts()){
+// 		for(Product product: getProducts()){
 // 			if(product.getId().equals(testProduct3.getId()) && product.getName().equals(testProduct3.getName()) && product.getPrice()==testProduct3.getPrice()){
 // 				found=true;
 // 				break;
@@ -640,9 +819,9 @@
 // 		testProduct4.setId(UUID.randomUUID());
 // 		testProduct4.setName("Test Product");
 // 		testProduct4.setPrice(10.0);
-// 		methods.addProduct(testProduct4);
+// 		addProduct(testProduct4);
 		
-// 		assertEquals(productRepository.getProducts().size(), methods.getProducts().size(), "Products should be returned correctly");
+// 		assertEquals(productRepository.getProducts().size(), getProducts().size(), "Products should be returned correctly");
 // 	}
 
 // 	@Test
@@ -657,9 +836,9 @@
 // 		testProduct5.setId(UUID.randomUUID());
 // 		testProduct5.setName("Test Product");
 // 		testProduct5.setPrice(10.0);
-// 		methods.addProduct(testProduct5);
+// 		addProduct(testProduct5);
 		
-// 		assertEquals(productService.getProducts().size(), methods.getProducts().size(), "Products should be returned correctly");
+// 		assertEquals(productService.getProducts().size(), getProducts().size(), "Products should be returned correctly");
 // 	}
 
 // 	@Test
@@ -668,7 +847,7 @@
 // 		testProduct6.setId(UUID.randomUUID());
 // 		testProduct6.setName("Test Product");
 // 		testProduct6.setPrice(10.0);
-// 		methods.addProduct(testProduct6);
+// 		addProduct(testProduct6);
 		
 // 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/product/")
 // 				.contentType(MediaType.APPLICATION_JSON))
@@ -677,7 +856,7 @@
 // 		String responseContent = result.getResponse().getContentAsString();
 // 		List<Product> responseProducts = objectMapper.readValue(responseContent, new TypeReference<List<Product>>() {});
 		
-// 		assertEquals(methods.getProducts().size(), responseProducts.size(), "Products should be returned correctly From Endpoint");
+// 		assertEquals(getProducts().size(), responseProducts.size(), "Products should be returned correctly From Endpoint");
 // 	}
 
 // 	@Test
@@ -692,7 +871,7 @@
 // 		testProduct7.setId(UUID.randomUUID());
 // 		testProduct7.setName("Test Product");
 // 		testProduct7.setPrice(10.0);
-// 		methods.addProduct(testProduct7);
+// 		addProduct(testProduct7);
 		
 // 		assertEquals(testProduct7.getId(), productRepository.getProductById(testProduct7.getId()).getId(),"Product should be returned correctly");
 // 		assertEquals(null, productRepository.getProductById(UUID.randomUUID()), "No Product Should be found");
@@ -710,7 +889,7 @@
 // 		testProduct8.setId(UUID.randomUUID());
 // 		testProduct8.setName("Test Product");
 // 		testProduct8.setPrice(10.0);
-// 		methods.addProduct(testProduct8);
+// 		addProduct(testProduct8);
 		
 // 		assertEquals(testProduct8.getId(), productService.getProductById(testProduct8.getId()).getId(),"Product should be returned correctly");
 // 		assertEquals(null, productService.getProductById(UUID.randomUUID()), "No Product Should be found");
@@ -721,7 +900,7 @@
 // 		testProduct9.setId(UUID.randomUUID());
 // 		testProduct9.setName("Test Product");
 // 		testProduct9.setPrice(10.0);
-// 		methods.addProduct(testProduct9);
+// 		addProduct(testProduct9);
 		
 // 		mockMvc.perform(MockMvcRequestBuilders.get("/product/{id}", testProduct9.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -733,7 +912,7 @@
 // 		testProduct10.setId(UUID.randomUUID());
 // 		testProduct10.setName("Test Product");
 // 		testProduct10.setPrice(10.0);
-// 		methods.addProduct(testProduct10);
+// 		addProduct(testProduct10);
 // 		assertTrue(
 // 			Arrays.stream(productRepository.getClass().getMethods())
 // 				.anyMatch(method -> method.getName().equals("updateProduct")),
@@ -750,7 +929,7 @@
 // 		testProduct11.setId(UUID.randomUUID());
 // 		testProduct11.setName("Test Product");
 // 		testProduct11.setPrice(10.0);
-// 		methods.addProduct(testProduct11);
+// 		addProduct(testProduct11);
 // 		assertTrue(
 // 			Arrays.stream(productService.getClass().getMethods())
 // 				.anyMatch(method -> method.getName().equals("updateProduct")),
@@ -768,7 +947,7 @@
 // 		testProduct12.setId(UUID.randomUUID());
 // 		testProduct12.setName("Test Product");
 // 		testProduct12.setPrice(10.0);
-// 		methods.addProduct(testProduct12);
+// 		addProduct(testProduct12);
 // 		Map<String,Object> body=new HashMap<>();
 // 		body.put("newName", "UpdatedName");
 // 		body.put("newPrice", 20.0);
@@ -790,14 +969,14 @@
 // 		testProduct13.setId(UUID.randomUUID());
 // 		testProduct13.setName("Test Product");
 // 		testProduct13.setPrice(10.0);
-// 		methods.addProduct(testProduct13);
+// 		addProduct(testProduct13);
 // 		assertTrue(
 // 			Arrays.stream(productRepository.getClass().getMethods())
 // 				.anyMatch(method -> method.getName().equals("deleteProductById")),
 // 			"ProductRepository should contain a method called deleteProductById"
 // 		);
 // 		productRepository.deleteProductById(testProduct13.getId());
-// 		assertNull(methods.find("Product", testProduct13),"Product should be deleted correctly");
+// 		assertNull(find("Product", testProduct13),"Product should be deleted correctly");
 // 	}
 // 	@Test
 // 	void testDeleteProductByIdRepository2() throws Exception{
@@ -822,14 +1001,14 @@
 // 		testProduct14.setId(UUID.randomUUID());
 // 		testProduct14.setName("Test Product");
 // 		testProduct14.setPrice(10.0);
-// 		methods.addProduct(testProduct14);
+// 		addProduct(testProduct14);
 // 		assertTrue(
 // 			Arrays.stream(productService.getClass().getMethods())
 // 				.anyMatch(method -> method.getName().equals("deleteProductById")),
 // 			"ProductService should contain a method called deleteProductById"
 // 		);
 // 		productService.deleteProductById(testProduct14.getId());
-// 		assertNull(methods.find("Product", testProduct14),"Product should be deleted correctly");
+// 		assertNull(find("Product", testProduct14),"Product should be deleted correctly");
 // 	}
 
 // 	@Test
@@ -855,7 +1034,7 @@
 // 		testProduct15.setId(UUID.randomUUID());
 // 		testProduct15.setName("Test Product");
 // 		testProduct15.setPrice(10.0);
-// 		methods.addProduct(testProduct15);
+// 		addProduct(testProduct15);
 // 		mockMvc.perform(MockMvcRequestBuilders.delete("/product/delete/{id}", testProduct15.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().string("Product deleted successfully"));
@@ -869,7 +1048,7 @@
 // 		User testUser19=new User();
 // 		testUser19.setId(UUID.randomUUID());
 // 		testUser19.setName("Test User19");
-// 		methods.addUser(testUser19);
+// 		addUser(testUser19);
 // 		assertTrue(
 // 			Arrays.stream(cartRepository.getClass().getMethods())
 // 				.anyMatch(method -> method.getName().equals("addCart")),
@@ -877,7 +1056,7 @@
 // 		);
 // 		Cart cart = new Cart(UUID.randomUUID(), testUser19.getId(), new ArrayList<>());
 // 		cartRepository.addCart(cart);
-// 		assertNotNull(methods.find("Cart",cart),"Cart should be added correctly");
+// 		assertNotNull(find("Cart",cart),"Cart should be added correctly");
 // 	}
 
 // 	@Test
@@ -885,7 +1064,7 @@
 // 		User testUser20=new User();
 // 		testUser20.setId(UUID.randomUUID());
 // 		testUser20.setName("Test User20");
-// 		methods.addUser(testUser20);
+// 		addUser(testUser20);
 // 		assertTrue(
 // 			Arrays.stream(cartService.getClass().getMethods())
 // 				.anyMatch(method -> method.getName().equals("addCart")),
@@ -893,7 +1072,7 @@
 // 		);
 // 		Cart cart = new Cart(UUID.randomUUID(), testUser20.getId(), new ArrayList<>());
 // 		cartService.addCart(cart);
-// 		assertNotNull(methods.find("Cart",cart),"Cart should be added correctly");
+// 		assertNotNull(find("Cart",cart),"Cart should be added correctly");
 // 	}
 
 // 	@Test
@@ -901,14 +1080,14 @@
 // 		User testUser21=new User();
 // 		testUser21.setId(UUID.randomUUID());
 // 		testUser21.setName("Test User21");
-// 		methods.addUser(testUser21);
+// 		addUser(testUser21);
 // 		mockMvc.perform(MockMvcRequestBuilders.post("/cart/")
 // 				.contentType(MediaType.APPLICATION_JSON)
 // 				.content(objectMapper.writeValueAsString(new Cart(UUID.randomUUID(), testUser21.getId(), new ArrayList<>())))
 // 				)
 // 				.andExpect(MockMvcResultMatchers.status().isOk());
 // 		boolean found=false;
-// 		for(Cart cart: methods.getCarts()){
+// 		for(Cart cart: getCarts()){
 // 			if(cart.getUserId().equals(testUser21.getId())){
 // 				found=true;
 // 				break;
@@ -925,8 +1104,8 @@
 // 			"CartRepository should contain a method called getCarts"
 // 		);
 // 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		methods.addCart(cart);
-// 		assertEquals(cartRepository.getCarts().size(), methods.getCarts().size(), "Carts should be returned correctly");
+// 		addCart(cart);
+// 		assertEquals(cartRepository.getCarts().size(), getCarts().size(), "Carts should be returned correctly");
 // 	}
 
 // 	@Test
@@ -937,21 +1116,21 @@
 // 			"CartService should contain a method called getCarts"
 // 		);
 // 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		methods.addCart(cart);
-// 		assertEquals(cartService.getCarts().size(), methods.getCarts().size(), "Carts should be returned correctly");
+// 		addCart(cart);
+// 		assertEquals(cartService.getCarts().size(), getCarts().size(), "Carts should be returned correctly");
 // 	}
 
 // 	@Test
 // 	void testGetCartsEndPoint() throws Exception{
 // 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		methods.addCart(cart);
+// 		addCart(cart);
 // 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/cart/")
 // 				.contentType(MediaType.APPLICATION_JSON))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andReturn();
 // 		String responseContent = result.getResponse().getContentAsString();
 // 		List<Cart> responseCarts = objectMapper.readValue(responseContent, new TypeReference<List<Cart>>() {});
-// 		assertEquals(methods.getCarts().size(), responseCarts.size(), "Carts should be returned correctly From Endpoint");
+// 		assertEquals(getCarts().size(), responseCarts.size(), "Carts should be returned correctly From Endpoint");
 // 	}
 
 // 	@Test
@@ -962,7 +1141,7 @@
 // 			"CartRepository should contain a method called getCartById"
 // 		);
 // 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		methods.addCart(cart);
+// 		addCart(cart);
 // 		assertEquals(cart.getId(), cartRepository.getCartById(cart.getId()).getId(),"Cart should be returned correctly");
 // 		assertEquals(null, cartRepository.getCartById(UUID.randomUUID()), "No Cart Should be found");
 // 	}
@@ -975,7 +1154,7 @@
 // 			"CartService should contain a method called getCartById"
 // 		);
 // 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		methods.addCart(cart);
+// 		addCart(cart);
 // 		assertEquals(cart.getId(), cartService.getCartById(cart.getId()).getId(),"Cart should be returned correctly");
 // 		assertEquals(null, cartService.getCartById(UUID.randomUUID()), "No Cart Should be found");
 // 	}
@@ -983,7 +1162,7 @@
 // 	@Test
 // 	void testGetCartByIdEndPoint() throws Exception{
 // 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		methods.addCart(cart);
+// 		addCart(cart);
 // 		mockMvc.perform(MockMvcRequestBuilders.get("/cart/{id}", cart.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(cart)));
@@ -997,9 +1176,9 @@
 // 			"CartRepository should contain a method called deleteCartById"
 // 		);
 // 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		methods.addCart(cart);
+// 		addCart(cart);
 // 		cartRepository.deleteCartById(cart.getId());
-// 		assertNull(methods.find("Cart", cart),"Cart should be deleted correctly");
+// 		assertNull(find("Cart", cart),"Cart should be deleted correctly");
 // 	}
 // 	@Test
 // 	void testDeleteCartByIdRepository2(){
@@ -1025,15 +1204,15 @@
 // 			"CartService should contain a method called deleteCartById"
 // 		);
 // 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		methods.addCart(cart);
+// 		addCart(cart);
 // 		cartService.deleteCartById(cart.getId());
-// 		assertNull(methods.find("Cart", cart),"Cart should be deleted correctly");
+// 		assertNull(find("Cart", cart),"Cart should be deleted correctly");
 // 	}
 
 // 	@Test
 // 	void testDeleteCartByIdEndPoint() throws Exception{
 // 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		methods.addCart(cart);
+// 		addCart(cart);
 // 		mockMvc.perform(MockMvcRequestBuilders.delete("/cart/delete/{id}", cart.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().string("Cart deleted successfully"));
@@ -1052,7 +1231,7 @@
 // 		);
 // 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
 // 		orderRepository.addOrder(order);
-// 		assertNotNull(methods.find("Order", order),"Order should be added correctly");
+// 		assertNotNull(find("Order", order),"Order should be added correctly");
 // 	}
 // 	@Test
 // 	void testAddOrderService(){
@@ -1064,7 +1243,7 @@
 // 		);
 // 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
 // 		orderService.addOrder(order);
-// 		assertNotNull(methods.find("Order", order),"Order should be added correctly");
+// 		assertNotNull(find("Order", order),"Order should be added correctly");
 // 	}
 	
 // 	@Test
@@ -1075,7 +1254,7 @@
 // 				.content(objectMapper.writeValueAsString(order)))
 // 				.andExpect(MockMvcResultMatchers.status().isOk());
 // 		boolean found=false;
-// 		for(Order o: methods.getOrders()){
+// 		for(Order o: getOrders()){
 // 			if(o.getId().equals(order.getId())){
 // 				found=true;
 // 				break;
@@ -1092,8 +1271,8 @@
 // 			"OrderRepository should contain a method called getOrders"
 // 		);
 // 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		methods.addOrder(order);
-// 		assertEquals(methods.getOrders().size(), orderRepository.getOrders().size(), "Orders should be returned correctly");
+// 		addOrder(order);
+// 		assertEquals(getOrders().size(), orderRepository.getOrders().size(), "Orders should be returned correctly");
 // 	}
 
 // 	@Test
@@ -1104,22 +1283,22 @@
 // 			"OrderService should contain a method called getOrders"
 // 		);
 // 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		methods.addOrder(order);
-// 		assertEquals(methods.getOrders().size(), orderService.getOrders().size(), "Orders should be returned correctly");
+// 		addOrder(order);
+// 		assertEquals(getOrders().size(), orderService.getOrders().size(), "Orders should be returned correctly");
 // 	}
 
 // 	@Test
 // 	void testGetOrdersEndPoint() throws Exception{
 
 // 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		methods.addOrder(order);
+// 		addOrder(order);
 // 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/order/")
 // 				.contentType(MediaType.APPLICATION_JSON))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andReturn();
 // 		String responseContent = result.getResponse().getContentAsString();
 // 		List<Order> responseOrders = objectMapper.readValue(responseContent, new TypeReference<List<Order>>() {});
-// 		assertEquals(methods.getOrders().size(), responseOrders.size(), "Orders should be returned correctly From Endpoint");
+// 		assertEquals(getOrders().size(), responseOrders.size(), "Orders should be returned correctly From Endpoint");
 // 	}
 
 // 	@Test
@@ -1130,7 +1309,7 @@
 // 			"OrderRepository should contain a method called getOrderById"
 // 		);
 // 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		methods.addOrder(order);
+// 		addOrder(order);
 // 		assertEquals(order.getId(), orderRepository.getOrderById(order.getId()).getId(),"Order should be returned correctly");
 // 		assertEquals(null, orderRepository.getOrderById(UUID.randomUUID()), "No Order Should be found");
 // 	}
@@ -1143,7 +1322,7 @@
 // 			"OrderService should contain a method called getOrderById"
 // 		);
 // 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		methods.addOrder(order);
+// 		addOrder(order);
 // 		assertEquals(order.getId(), orderService.getOrderById(order.getId()).getId(),"Order should be returned correctly");
 // 		assertEquals(null, orderService.getOrderById(UUID.randomUUID()), "No Order Should be found");
 // 	}
@@ -1151,7 +1330,7 @@
 // 	@Test
 // 	void testGetOrderByIdEndPoint() throws Exception{
 // 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		methods.addOrder(order);
+// 		addOrder(order);
 // 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/order/{id}", order.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(order)))
@@ -1169,9 +1348,9 @@
 // 			"OrderRepository should contain a method called deleteOrderById"
 // 		);
 // 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		methods.addOrder(order);
+// 		addOrder(order);
 // 		orderRepository.deleteOrderById(order.getId());
-// 		assertNull(methods.find("Order", order),"Order should be deleted correctly");
+// 		assertNull(find("Order", order),"Order should be deleted correctly");
 // 	}
 
 // 	@Test
@@ -1182,15 +1361,15 @@
 // 			"OrderService should contain a method called deleteOrderById"
 // 		);
 // 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		methods.addOrder(order);
+// 		addOrder(order);
 // 		orderService.deleteOrderById(order.getId());
-// 		assertNull(methods.find("Order", order),"Order should be deleted correctly");
+// 		assertNull(find("Order", order),"Order should be deleted correctly");
 // 	}
 
 // 	@Test
 // 	void testDeleteOrderByIdEndPoint() throws Exception{
 // 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		methods.addOrder(order);
+// 		addOrder(order);
 // 		mockMvc.perform(MockMvcRequestBuilders.delete("/order/delete/{id}", order.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().string("Order deleted successfully"));
