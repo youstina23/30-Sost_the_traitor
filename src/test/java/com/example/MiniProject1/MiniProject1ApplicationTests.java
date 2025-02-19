@@ -411,7 +411,7 @@
 // 		testUser8.setName("Test User8");
 // 		addUser(testUser8);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.get("/user/{id}", testUser8.getId()))
+// 		mockMvc.perform(MockMvcRequestBuilders.get("/user/{userId}", testUser8.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(testUser8)));
 // 	}
@@ -464,7 +464,7 @@
 // 		List<Order> orders = List.of(new Order(UUID.randomUUID(), testUser10.getId(), 10.0, List.of(new Product(UUID.randomUUID(), "Test Product", 10.0))));
 // 		testUser10.setOrders(orders);
 // 		addUser(testUser10);		
-// 		mockMvc.perform(MockMvcRequestBuilders.get("/user/{id}/orders", testUser10.getId()))
+// 		mockMvc.perform(MockMvcRequestBuilders.get("/user/{userId}/orders", testUser10.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(orders)));
 // 	}
@@ -514,9 +514,10 @@
 // 			"UserService should contain a method called addOrderToUser"
 // 		);
 
-// 		Order order = new Order(UUID.randomUUID(), testUser11.getId(), 10.0, List.of(tesProduct));
-// 		userService.addOrderToUser(testUser11.getId(), order);
-// 		assertEquals(order.getId(), getUsers().getLast().getOrders().get(0).getId(),"Order should be added correctly");
+// 		int countBefore=testUser11.getOrders().size();
+// 		userService.addOrderToUser(testUser11.getId());
+// 		User afterUser=(User) find("User", testUser11);
+// 		assertEquals(afterUser.getOrders().size(), countBefore+1,"Order should be added correctly");
 
 	
 // 	}
@@ -535,11 +536,97 @@
 // 		addUser(testUser11);
 		
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.post("/user/{id}/checkout", testUser11.getId()))
+// 		mockMvc.perform(MockMvcRequestBuilders.post("/user/{userId}/checkout", testUser11.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().string("Order added successfully"));
 // 	}
 
+// 	@Test
+// 	void testRemoveOrderOfUserRepository() throws Exception{
+// 		User testUser12=new User();
+// 		testUser12.setId(UUID.randomUUID());
+// 		testUser12.setName("Test User12");
+// 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
+// 		Order order = new Order(UUID.randomUUID(), testUser12.getId(), 100.0, List.of(product));
+// 		testUser12.getOrders().add(order);
+// 		addUser(testUser12);
+// 		addOrder(order);
+		
+// 		assertTrue(
+// 			Arrays.stream(userRepository.getClass().getMethods())
+// 				.anyMatch(method -> method.getName().equals("removeOrderFromUser")),
+// 			"UserRepository should contain a method called removeOrderFromUser"
+// 		);
+// 		userRepository.removeOrderFromUser(testUser12.getId(), order.getId());
+// 		assertEquals(0, getUsers().getLast().getOrders().size(),"Order should be deleted correctly");
+// 	}
+// 	@Test
+// 	void testRemoveOrderOfUserService() throws Exception{
+// 		User testUser12=new User();
+// 		testUser12.setId(UUID.randomUUID());
+// 		testUser12.setName("Test User12");
+// 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
+// 		Order order = new Order(UUID.randomUUID(), testUser12.getId(), 100.0, List.of(product));
+// 		testUser12.getOrders().add(order);
+// 		addUser(testUser12);
+// 		addOrder(order);
+		
+// 		assertTrue(
+// 			Arrays.stream(userService.getClass().getMethods())
+// 				.anyMatch(method -> method.getName().equals("removeOrderFromUser")),
+// 			"UserService should contain a method called removeOrderFromUser"
+// 		);
+// 		userService.removeOrderFromUser(testUser12.getId(), order.getId());
+// 		assertEquals(0, getUsers().getLast().getOrders().size(),"Order should be deleted correctly");
+// 	}
+// 	@Test
+// 	void testRemoveOrderOfUserEndPoint() throws Exception{
+// 		User testUser12=new User();
+// 		testUser12.setId(UUID.randomUUID());
+// 		testUser12.setName("Test User12");
+// 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
+// 		Order order = new Order(UUID.randomUUID(), testUser12.getId(), 100.0, List.of(product));
+// 		testUser12.getOrders().add(order);
+// 		addUser(testUser12);
+// 		addOrder(order);
+		
+// 		mockMvc.perform(MockMvcRequestBuilders.post("/user/{userId}/removeOrder", testUser12.getId()).param("orderId", order.getId().toString()))
+// 				.andExpect(MockMvcResultMatchers.status().isOk())
+// 				.andExpect(MockMvcResultMatchers.content().string("Order removed successfully"));
+// 	}
+// 	@Test
+// 	void testEmptyCartService(){
+// 		User testUser13=new User();
+// 		testUser13.setId(UUID.randomUUID());
+// 		testUser13.setName("Test User13");
+// 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
+// 		Cart cart = new Cart(UUID.randomUUID(), testUser13.getId(), new ArrayList<>(List.of(product)));
+// 		addUser(testUser13);
+// 		addCart(cart);
+		
+// 		assertTrue(
+// 			Arrays.stream(userService.getClass().getMethods())
+// 				.anyMatch(method -> method.getName().equals("emptyCart")),
+// 			"UserService should contain a method called emptyCart"
+// 		);
+// 		userService.emptyCart(testUser13.getId());
+// 		assertEquals(0, getCarts().getLast().getProducts().size(),"Cart should be emptied correctly");
+// 	}
+
+// 	@Test
+// 	void testEmptyCartEndpoint() throws Exception{
+// 		User testUser13=new User();
+// 		testUser13.setId(UUID.randomUUID());
+// 		testUser13.setName("Test User13");
+// 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
+// 		Cart cart = new Cart(UUID.randomUUID(), testUser13.getId(), new ArrayList<>(List.of(product)));
+// 		addUser(testUser13);
+// 		addCart(cart);
+		
+// 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/{userId}/emptyCart", testUser13.getId()))
+// 				.andExpect(MockMvcResultMatchers.status().isOk())
+// 				.andExpect(MockMvcResultMatchers.content().string("Cart emptied successfully"));
+// 	}
 // 	@Test
 // 	void testAddProductToCartRepository() throws Exception {
 // 		User testUser12=new User();
@@ -730,7 +817,7 @@
 // 		testUser18.setName("Test User18");
 // 		addUser(testUser18);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{id}", testUser18.getId()))
+// 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{userId}", testUser18.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().string("User deleted successfully"));
 // 	}
@@ -741,7 +828,7 @@
 // 		testUser18.setName("Test User18");
 // 		addUser(testUser18);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{id}", UUID.randomUUID()))
+// 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{userId}", UUID.randomUUID()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().string("User not found"));
 // 	}
@@ -902,7 +989,7 @@
 // 		testProduct9.setPrice(10.0);
 // 		addProduct(testProduct9);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.get("/product/{id}", testProduct9.getId()))
+// 		mockMvc.perform(MockMvcRequestBuilders.get("/product/{productId}", testProduct9.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(testProduct9)));
 // 	}
