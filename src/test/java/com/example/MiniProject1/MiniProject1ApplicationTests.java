@@ -1,8 +1,6 @@
 // package com.example.MiniProject1;
 
-// import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 // import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertFalse;
 // import static org.junit.jupiter.api.Assertions.assertNotNull;
 // import static org.junit.jupiter.api.Assertions.assertNull;
 // import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,7 +15,6 @@
 // import java.util.UUID;
 
 // import org.springframework.http.MediaType;
-// import org.springframework.stereotype.Component;
 // import org.junit.jupiter.api.BeforeEach;
 // import org.junit.jupiter.api.Test;
 // import org.springframework.beans.factory.annotation.Autowired;
@@ -517,7 +514,9 @@
 // 		int countBefore=testUser11.getOrders().size();
 // 		userService.addOrderToUser(testUser11.getId());
 // 		User afterUser=(User) find("User", testUser11);
+// 		Cart afterCart=(Cart) find("Cart", cart);
 // 		assertEquals(afterUser.getOrders().size(), countBefore+1,"Order should be added correctly");
+// 		assertTrue(afterCart.getProducts().isEmpty(),"Cart should be emptied correctly");
 
 	
 // 	}
@@ -748,7 +747,7 @@
 // 		Cart cart = new Cart(UUID.randomUUID(), testUser15.getId(), new ArrayList<>(List.of(testProduct)));
 // 		addCart(cart);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/deleteProductFromCart")
+// 		mockMvc.perform(MockMvcRequestBuilders.put("/user/deleteProductFromCart")
 // 				.param("userId", cart.getUserId().toString())
 // 				.param("productId", testProduct.getId().toString()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -766,7 +765,7 @@
 // 		// Cart cart = new Cart(UUID.randomUUID(), testUser15.getId(), new ArrayList<>(List.of(testProduct)));
 // 		// addCart(cart);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/deleteProductFromCart")
+// 		mockMvc.perform(MockMvcRequestBuilders.put("/user/deleteProductFromCart")
 // 				.param("userId", testUser15.getId().toString())
 // 				.param("productId", testProduct.getId().toString()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -1418,7 +1417,7 @@
 // 	void testGetOrderByIdEndPoint() throws Exception{
 // 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
 // 		addOrder(order);
-// 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/order/{id}", order.getId()))
+// 		mockMvc.perform(MockMvcRequestBuilders.get("/order/{id}", order.getId()))
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(order)))
 // 				.andReturn();
