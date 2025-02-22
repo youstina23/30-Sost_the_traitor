@@ -1050,6 +1050,60 @@
 // 	}
 
 // 	@Test
+// 	void testApplyDiscountRepository(){
+// 		Product testProduct13=new Product();
+// 		testProduct13.setId(UUID.randomUUID());
+// 		testProduct13.setName("Test Product");
+// 		testProduct13.setPrice(10.0);
+// 		addProduct(testProduct13);
+// 		assertTrue(
+// 			Arrays.stream(productRepository.getClass().getMethods())
+// 				.anyMatch(method -> method.getName().equals("applyDiscount")),
+// 			"ProductRepository should contain a method called applyDiscount"
+// 		);
+// 		ArrayList<UUID> productIds=new ArrayList<>();
+// 		productIds.add(testProduct13.getId());
+// 		productRepository.applyDiscount(10.0, productIds);
+// 		assertEquals(9.0, ((Product)find("Product", testProduct13)).getPrice(),"Product should be updated correctly");
+// 	}
+
+// 	@Test
+// 	void testApplyDiscountService(){
+// 		Product testProduct14=new Product();
+// 		testProduct14.setId(UUID.randomUUID());
+// 		testProduct14.setName("Test Product");
+// 		testProduct14.setPrice(10.0);
+// 		addProduct(testProduct14);
+// 		assertTrue(
+// 			Arrays.stream(productService.getClass().getMethods())
+// 				.anyMatch(method -> method.getName().equals("applyDiscount")),
+// 			"ProductService should contain a method called applyDiscount"
+// 		);
+// 		ArrayList<UUID> productIds=new ArrayList<>();
+// 		productIds.add(testProduct14.getId());
+// 		productService.applyDiscount(10.0, productIds);
+// 		assertEquals(9.0, ((Product)find("Product", testProduct14)).getPrice(),"Product should be updated correctly");
+// 	}
+
+// 	@Test
+// 	void testApplyDiscountEndPoint() throws Exception{
+// 		Product testProduct15=new Product();
+// 		testProduct15.setId(UUID.randomUUID());
+// 		testProduct15.setName("Test Product");
+// 		testProduct15.setPrice(10.0);
+// 		addProduct(testProduct15);
+// 		ArrayList<UUID> productIds=new ArrayList<>();
+// 		productIds.add(testProduct15.getId());
+// 		mockMvc.perform(MockMvcRequestBuilders.put("/product/applyDiscount")
+// 				.contentType(MediaType.APPLICATION_JSON)
+// 				.param("discount", "10.0")
+// 				.content(objectMapper.writeValueAsString(productIds)))
+// 				.andExpect(MockMvcResultMatchers.status().isOk())
+// 				.andExpect(MockMvcResultMatchers.content().string("Discount applied successfully"));
+// 		assertEquals(9.0, ((Product)find("Product", testProduct15)).getPrice(),"Product should be updated correctly");
+// 	}
+
+// 	@Test
 // 	void testDeleteProductByIdRepository1() throws Exception{
 // 		Product testProduct13=new Product();
 // 		testProduct13.setId(UUID.randomUUID());
