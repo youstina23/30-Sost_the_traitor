@@ -267,32 +267,7 @@
 
 // 	// ------------------------ User Tests -------------------------
 	
-// 	@Test
-// 	void testAddUserRepository() {
-// 		User testUser1 = new User();
-// 		testUser1.setId(UUID.randomUUID());
-// 		testUser1.setName("Test User1");
-// 		assertTrue(
-// 			Arrays.stream(userRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("addUser")),
-// 			"UserRepository should contain a method called addUser"
-// 		);
-// 		userRepository.addUser(testUser1);
-// 		assertNotNull(find("User",testUser1),"User should be added correctly");
-// 	}
-// 	@Test
-// 	void testAddUserService() {
-// 		User testUser2 = new User();
-// 		testUser2.setId(UUID.randomUUID());
-// 		testUser2.setName("Test User2");
-// 		assertTrue(
-// 			Arrays.stream(userService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("addUser")),
-// 			"UserService should contain a method called addUser"
-// 		);
-// 		userService.addUser(testUser2);
-// 		assertNotNull(find("User",testUser2),"User should be added correctly");
-// 	}
+	
 
 // 	@Test
 // 	void testAddUserEndPoint() throws Exception {
@@ -316,37 +291,6 @@
 // 		assertTrue(found,"User should be added correctly");   
 // 	}
 
-// 	@Test void testGetUsersRepository() {
-// 		User testUser4 = new User();
-// 		testUser4.setId(UUID.randomUUID());
-// 		testUser4.setName("Test User4");
-// 		assertTrue(
-// 			Arrays.stream(userRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getUsers")),
-// 			"UserRepository should contain a method called getUsers"
-// 		);
-// 		addUser(testUser4);
-		
-		
-		
-// 		assertEquals(getUsers().size(), userRepository.getUsers().size(), "Users should be returned correctly");
-// 		assertNotNull(find("User", testUser4),"User should be returned correctly");
-// 	}
-	
-
-// 	@Test void testGetUsersService() {
-// 		User testUser5 = new User();
-// 		testUser5.setId(UUID.randomUUID());
-// 		testUser5.setName("Test User5");
-// 		assertTrue(
-// 			Arrays.stream(userService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getUsers")),
-// 			"UserService should contain a method called getUsers"
-// 		);
-// 		addUser(testUser5);
-		
-// 		assertEquals(getUsers().size(), userService.getUsers().size(), "Users should be returned correctly");
-// 		assertNotNull(find("User", testUser5),"User should be returned correctly");	}
 
 // 	@Test
 // 	void testGetUsersEndPoint() throws Exception {
@@ -364,42 +308,7 @@
 // 		assertEquals(responseUsers.size(), getUsers().size(), "Users should be returned correctly From Endpoint");
 // 	}
 
-// 	@Test
-// 	void testGetUserByIdRepository() throws Exception {
-		
-		
-// 		assertTrue(
-// 			Arrays.stream(userRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getUserById")),
-// 			"UserRepository should contain a method called getUserById"
-// 		);
-// 		User testUser6=new User();
-// 		testUser6.setId(UUID.randomUUID());
-// 		testUser6.setName("Test User6");
-// 		addUser(testUser6);
-		
-// 		assertEquals(testUser6.getId(),userRepository.getUserById(testUser6.getId()).getId(),"User should be returned correctly");
-// 		assertEquals(null,userRepository.getUserById(UUID.randomUUID()), "No User Should be found if Id is not found");
-// 	}
-
-// 	@Test
-// 	void testGetUserByIdService() throws Exception {
-		
-		
-// 		assertTrue(
-// 			Arrays.stream(userService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getUserById")),
-// 			"UserService should contain a method called getUserById"
-// 		);
-		
-// 		User testUser7=new User();
-// 		testUser7.setId(UUID.randomUUID());
-// 		testUser7.setName("Test User7");
-// 		addUser(testUser7);
-// 		assertEquals(testUser7.getId(), userRepository.getUserById(testUser7.getId()).getId(),"User should be returned correctly");
-// 		assertEquals(null, userRepository.getUserById(UUID.randomUUID()), "No User Should be found");
-		
-// 	}
+	
 
 // 	@Test
 // 	void testGetUserByIdEndPoint() throws Exception {
@@ -413,45 +322,7 @@
 // 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(testUser8)));
 // 	}
 
-// 	@Test
-// 	void testGetOrdersByUserIdRepository() throws Exception {
-// 		User testUser9=new User();
-// 		testUser9.setId(UUID.randomUUID());
-// 		testUser9.setName("Test User9");
-// 		List<Order> orders = List.of(new Order(UUID.randomUUID(), testUser9.getId(), 10.0, List.of(new Product(UUID.randomUUID(), "Test Product", 10.0))));
-// 		testUser9.setOrders(orders);
-// 		addUser(testUser9);
-		
-		
-		
-// 		assertTrue(
-// 			Arrays.stream(userRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getOrdersByUserId")),
-// 			"UserRepository should contain a method called getOrdersByUserId"
-// 		);
-		
-// 		assertEquals(orders.size(), userRepository.getOrdersByUserId(testUser9.getId()).size(),"Orders should be returned correctly");
-
-		
-// 	}
-
-// 	@Test
-// 	void testGetOrdersByUserIdService() throws Exception {
-// 		User testUser10=new User();
-// 		testUser10.setId(UUID.randomUUID());
-// 		testUser10.setName("Test User10");
-// 		List<Order> orders = List.of(new Order(UUID.randomUUID(), testUser10.getId(), 10.0, List.of(new Product(UUID.randomUUID(), "Test Product", 10.0))));
-// 		testUser10.setOrders(orders);
-// 		addUser(testUser10);
-		
-// 		assertTrue(
-// 			Arrays.stream(userService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getOrdersByUserId")),
-// 			"UserService should contain a method called getOrdersByUserId"
-// 		);
-		
-// 		assertEquals(orders.size(), userService.getOrdersByUserId(testUser10.getId()).size(),"Orders should be returned correctly");
-// 	}
+	
 
 // 	@Test
 // 	void testGetOrdersByUserIdEndPoint() throws Exception {
@@ -466,60 +337,7 @@
 // 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(orders)));
 // 	}
 
-// 	@Test
-// 	void testAddOrderToUserRepository() throws Exception {
-// 		User testUser11=new User();
-// 		testUser11.setId(UUID.randomUUID());
-// 		testUser11.setName("Test User11");
-// 		Cart cart=new Cart();
-// 		cart.setId(UUID.randomUUID());
-// 		cart.setUserId(testUser11.getId());
-// 		Product tesProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		cart.setProducts(List.of(tesProduct));
-// 		addUser(testUser11);
-// 		addCart(cart);
-		
-// 		assertTrue(
-// 			Arrays.stream(userRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("addOrderToUser")),
-// 			"UserRepository should contain a method called addOrderToUser"
-// 		);
-// 		Order order = new Order(UUID.randomUUID(), testUser11.getId(), 10.0, List.of(tesProduct));
-// 		userRepository.addOrderToUser(testUser11.getId(), order);
-
-// 		assertEquals(order.getId(), getUsers().getLast().getOrders().get(0).getId(),"Order should be added correctly");
-
-		
-// 	}
-
-// 	@Test
-// 	void testAddOrderToUserService() throws Exception {
-// 		User testUser11=new User();
-// 		testUser11.setId(UUID.randomUUID());
-// 		testUser11.setName("Test User11");
-// 		Cart cart=new Cart();
-// 		cart.setId(UUID.randomUUID());
-// 		cart.setUserId(testUser11.getId());
-// 		Product tesProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		cart.setProducts(List.of(tesProduct));
-// 		addCart(cart);
-// 		addUser(testUser11);
-		
-// 		assertTrue(
-// 			Arrays.stream(userService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("addOrderToUser")),
-// 			"UserService should contain a method called addOrderToUser"
-// 		);
-
-// 		int countBefore=testUser11.getOrders().size();
-// 		userService.addOrderToUser(testUser11.getId());
-// 		User afterUser=(User) find("User", testUser11);
-// 		Cart afterCart=(Cart) find("Cart", cart);
-// 		assertEquals(afterUser.getOrders().size(), countBefore+1,"Order should be added correctly");
-// 		assertTrue(afterCart.getProducts().isEmpty(),"Cart should be emptied correctly");
-
 	
-// 	}
 
 // 	@Test
 // 	void testAddOrderToUserEndPoint() throws Exception {
@@ -540,44 +358,7 @@
 // 				.andExpect(MockMvcResultMatchers.content().string("Order added successfully"));
 // 	}
 
-// 	@Test
-// 	void testRemoveOrderOfUserRepository() throws Exception{
-// 		User testUser12=new User();
-// 		testUser12.setId(UUID.randomUUID());
-// 		testUser12.setName("Test User12");
-// 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
-// 		Order order = new Order(UUID.randomUUID(), testUser12.getId(), 100.0, List.of(product));
-// 		testUser12.getOrders().add(order);
-// 		addUser(testUser12);
-// 		addOrder(order);
-		
-// 		assertTrue(
-// 			Arrays.stream(userRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("removeOrderFromUser")),
-// 			"UserRepository should contain a method called removeOrderFromUser"
-// 		);
-// 		userRepository.removeOrderFromUser(testUser12.getId(), order.getId());
-// 		assertEquals(0, getUsers().getLast().getOrders().size(),"Order should be deleted correctly");
-// 	}
-// 	@Test
-// 	void testRemoveOrderOfUserService() throws Exception{
-// 		User testUser12=new User();
-// 		testUser12.setId(UUID.randomUUID());
-// 		testUser12.setName("Test User12");
-// 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
-// 		Order order = new Order(UUID.randomUUID(), testUser12.getId(), 100.0, List.of(product));
-// 		testUser12.getOrders().add(order);
-// 		addUser(testUser12);
-// 		addOrder(order);
-		
-// 		assertTrue(
-// 			Arrays.stream(userService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("removeOrderFromUser")),
-// 			"UserService should contain a method called removeOrderFromUser"
-// 		);
-// 		userService.removeOrderFromUser(testUser12.getId(), order.getId());
-// 		assertEquals(0, getUsers().getLast().getOrders().size(),"Order should be deleted correctly");
-// 	}
+	
 // 	@Test
 // 	void testRemoveOrderOfUserEndPoint() throws Exception{
 // 		User testUser12=new User();
@@ -593,24 +374,7 @@
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().string("Order removed successfully"));
 // 	}
-// 	@Test
-// 	void testEmptyCartService(){
-// 		User testUser13=new User();
-// 		testUser13.setId(UUID.randomUUID());
-// 		testUser13.setName("Test User13");
-// 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
-// 		Cart cart = new Cart(UUID.randomUUID(), testUser13.getId(), new ArrayList<>(List.of(product)));
-// 		addUser(testUser13);
-// 		addCart(cart);
-		
-// 		assertTrue(
-// 			Arrays.stream(userService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("emptyCart")),
-// 			"UserService should contain a method called emptyCart"
-// 		);
-// 		userService.emptyCart(testUser13.getId());
-// 		assertEquals(0, getCarts().getLast().getProducts().size(),"Cart should be emptied correctly");
-// 	}
+	
 
 // 	@Test
 // 	void testEmptyCartEndpoint() throws Exception{
@@ -626,48 +390,7 @@
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().string("Cart emptied successfully"));
 // 	}
-// 	@Test
-// 	void testAddProductToCartRepository() throws Exception {
-// 		User testUser12=new User();
-// 		testUser12.setId(UUID.randomUUID());
-// 		testUser12.setName("Test User12");
-// 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
-// 		Cart cart = new Cart(UUID.randomUUID(), testUser12.getId(), new ArrayList<>());
-		
-// 		addCart(cart);
-// 		addUser(testUser12);
-		
-// 		assertTrue(
-// 			Arrays.stream(cartRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("addProductToCart")),
-// 			"CartRepository should contain a method called addProductToCart"
-// 		);
-
-// 		cartRepository.addProductToCart(cart.getId(), product);
-// 		assertEquals(product.getId(), getCarts().getLast().getProducts().get(0).getId(),"Product should be added correctly");
-
-// 	}
-
-// 	@Test
-// 	void testAddProductToCartService() throws Exception {
-// 		User testUser13=new User();
-// 		testUser13.setId(UUID.randomUUID());
-// 		testUser13.setName("Test User13");
-// 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
-// 		Cart cart = new Cart(UUID.randomUUID(), testUser13.getId(), new ArrayList<>());
-// 		addUser(testUser13);
-// 		addCart(cart);
-// 		assertTrue(
-// 			Arrays.stream(cartService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("addProductToCart")),
-// 			"UserService should contain a method called addProductToCart"
-// 		);
-
-// 		cartService.addProductToCart(cart.getId(), product);
-// 		assertEquals(product.getId(), getCarts().getLast().getProducts().get(0).getId(),"Product should be added correctly");
-
-		
-// 	}
+	
 
 // 	@Test
 // 	void testAddProductToCartEndPoint() throws Exception {
@@ -688,52 +411,7 @@
 // 		assertEquals(testProduct.getId(), getCarts().getLast().getProducts().get(0).getId(),"Product should be added correctly");
 // 	}
 
-// 	@Test
-// 	void testDeleteProductFromCartRepository() throws Exception {
-// 		User testUser15=new User();
-// 		testUser15.setId(UUID.randomUUID());
-// 		testUser15.setName("Test User15");
-		
-// 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		addUser(testUser15);
-// 		addProduct(testProduct);
-// 		Cart cart = new Cart(UUID.randomUUID(), testUser15.getId(), new ArrayList<>(List.of(testProduct)));
-// 		addCart(cart);
-
-// 		assertTrue(
-// 			Arrays.stream(cartRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteProductFromCart")),
-// 			"CartRepository should contain a method called deleteProductFromCart"
-// 		);
-// 		System.out.println("before "+getCarts());
-// 		cartRepository.deleteProductFromCart(cart.getId(), testProduct);
-// 		System.out.println("after "+getCarts());
-// 		assertEquals(0, getCarts().getLast().getProducts().size(),"Product should be deleted correctly");
-		
-		
-// 	}
-
-// 	@Test
-// 	void testDeleteProductFromCartService() throws Exception {
-// 		User testUser15=new User();
-// 		testUser15.setId(UUID.randomUUID());
-// 		testUser15.setName("Test User15");
-		
-// 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		addUser(testUser15);
-// 		addProduct(testProduct);
-// 		Cart cart = new Cart(UUID.randomUUID(), testUser15.getId(), new ArrayList<>(List.of(testProduct)));
-// 		addCart(cart);
-		
-// 		assertTrue(
-// 			Arrays.stream(cartService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteProductFromCart")),
-// 			"CartService should contain a method called deleteProductFromCart"
-// 		);
-
-// 		cartService.deleteProductFromCart(cart.getId(), testProduct);
-// 		assertEquals(0, getCarts().getLast().getProducts().size(),"Product should be deleted correctly");
-// 	}
+	
 
 // 	@Test
 // 	void testDeleteProductFromCartEndPoint1() throws Exception {
@@ -773,42 +451,7 @@
 // 	}
 
 
-// 	@Test
-// 	void testDeleteUserByIdRepository() throws Exception {
-// 		User testUser16=new User();
-// 		testUser16.setId(UUID.randomUUID());
-// 		testUser16.setName("Test User16");
-// 		addUser(testUser16);
-// 		assertTrue(
-// 			Arrays.stream(userRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteUserById")),
-// 			"UserRepository should contain a method called deleteUserById"
-// 		);
-		
-// 		userRepository.deleteUserById(testUser16.getId());
-// 		assertNull(find("User", testUser16),"User should be deleted correctly");
-
-		
-// 	}
-
-// 	@Test
-// 	void testDeleteUserByIdService() throws Exception {
-// 		User testUser17=new User();
-// 		testUser17.setId(UUID.randomUUID());
-// 		testUser17.setName("Test User17");
-// 		addUser(testUser17);
-
-// 		assertTrue(
-// 			Arrays.stream(userService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteUserById")),
-// 			"UserService should contain a method called deleteUserById"
-// 		);
-		
-// 		userService.deleteUserById(testUser17.getId());
-// 		assertNull(find("User", testUser17),"User should be deleted correctly");
-
-// 	}
-
+	
 // 	@Test
 // 	void testDeleteUserByIdEndPoint1() throws Exception {
 // 		User testUser18=new User();
@@ -835,37 +478,7 @@
 
 // 	// ------------------------ Product Tests -------------------------
 
-// 	@Test
-// 	void testAddProductRepository() {
-
-// 		assertTrue(
-// 			Arrays.stream(productRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("addProduct")),
-// 			"ProductRepository should contain a method called addProduct"
-// 		);
-// 		Product testProduct1=new Product();
-// 		testProduct1.setId(UUID.randomUUID());
-// 		testProduct1.setName("Test Product");
-// 		testProduct1.setPrice(10.0);
-// 		productRepository.addProduct(testProduct1);
-// 		assertNotNull(find("Product",testProduct1),"Product should be added correctly");
-
-// 	}
-// 	@Test
-// 	void testAddProductService() {
-
-// 		assertTrue(
-// 			Arrays.stream(productService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("addProduct")),
-// 			"ProductService should contain a method called addProduct"
-// 		);
-// 		Product testProduct2=new Product();
-// 		testProduct2.setId(UUID.randomUUID());
-// 		testProduct2.setName("Test Product");
-// 		testProduct2.setPrice(10.0);
-// 		productService.addProduct(testProduct2);
-// 		assertNotNull(find("Product",testProduct2),"Product should be added correctly");
-// 	}
+	
 // 	@Test
 // 	void testAddProductEndPoint() throws JsonProcessingException, Exception{
 
@@ -893,39 +506,7 @@
 // 		assertTrue(found,"Product should be added correctly");   
 // 	}
 
-// 	@Test
-// 	void testGetProductsRepository(){
-		
-// 		assertTrue(
-// 			Arrays.stream(productRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getProducts")),
-// 			"ProductRepository should contain a method called getProducts"
-// 		);
-// 		Product testProduct4=new Product();
-// 		testProduct4.setId(UUID.randomUUID());
-// 		testProduct4.setName("Test Product");
-// 		testProduct4.setPrice(10.0);
-// 		addProduct(testProduct4);
-		
-// 		assertEquals(productRepository.getProducts().size(), getProducts().size(), "Products should be returned correctly");
-// 	}
-
-// 	@Test
-// 	void testGetProductsService(){
-		
-// 		assertTrue(
-// 			Arrays.stream(productService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getProducts")),
-// 			"ProductService should contain a method called getProducts"
-// 		);
-// 		Product testProduct5=new Product();
-// 		testProduct5.setId(UUID.randomUUID());
-// 		testProduct5.setName("Test Product");
-// 		testProduct5.setPrice(10.0);
-// 		addProduct(testProduct5);
-		
-// 		assertEquals(productService.getProducts().size(), getProducts().size(), "Products should be returned correctly");
-// 	}
+	
 
 // 	@Test
 // 	void testGetProductsEndPoint() throws Exception{
@@ -945,41 +526,7 @@
 // 		assertEquals(getProducts().size(), responseProducts.size(), "Products should be returned correctly From Endpoint");
 // 	}
 
-// 	@Test
-// 	void testGetProductByIdRepository() throws Exception{
-		
-// 		assertTrue(
-// 			Arrays.stream(productRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getProductById")),
-// 			"ProductRepository should contain a method called getProductById"
-// 		);
-// 		Product testProduct7=new Product();
-// 		testProduct7.setId(UUID.randomUUID());
-// 		testProduct7.setName("Test Product");
-// 		testProduct7.setPrice(10.0);
-// 		addProduct(testProduct7);
-		
-// 		assertEquals(testProduct7.getId(), productRepository.getProductById(testProduct7.getId()).getId(),"Product should be returned correctly");
-// 		assertEquals(null, productRepository.getProductById(UUID.randomUUID()), "No Product Should be found");
-// 	}
-
-// 	@Test
-// 	void testGetProductByIdService() throws Exception{
-		
-// 		assertTrue(
-// 			Arrays.stream(productService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getProductById")),
-// 			"ProductService should contain a method called getProductById"
-// 		);
-// 		Product testProduct8=new Product();
-// 		testProduct8.setId(UUID.randomUUID());
-// 		testProduct8.setName("Test Product");
-// 		testProduct8.setPrice(10.0);
-// 		addProduct(testProduct8);
-		
-// 		assertEquals(testProduct8.getId(), productService.getProductById(testProduct8.getId()).getId(),"Product should be returned correctly");
-// 		assertEquals(null, productService.getProductById(UUID.randomUUID()), "No Product Should be found");
-// 	}
+	
 // 	@Test
 // 	void testGetProductByIdEndPoint() throws Exception{
 // 		Product testProduct9=new Product();
@@ -992,40 +539,7 @@
 // 				.andExpect(MockMvcResultMatchers.status().isOk())
 // 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(testProduct9)));
 // 	}
-// 	@Test
-// 	void testUpdateProductRepository() throws Exception{
-// 		Product testProduct10=new Product();
-// 		testProduct10.setId(UUID.randomUUID());
-// 		testProduct10.setName("Test Product");
-// 		testProduct10.setPrice(10.0);
-// 		addProduct(testProduct10);
-// 		assertTrue(
-// 			Arrays.stream(productRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("updateProduct")),
-// 			"ProductRepository should contain a method called updateProduct"
-// 		);
-// 		Product updatedProduct = productRepository.updateProduct(testProduct10.getId(), "UpdatedName", 20.0);
-// 		assertEquals(updatedProduct.getId(),testProduct10.getId(),"Product should be updated correctly");
-// 		assertEquals(updatedProduct.getName(),"UpdatedName","Product should be updated correctly");
-// 		assertEquals(updatedProduct.getPrice(),20.0,"Product should be updated correctly");
-// 	}
-// 	@Test
-// 	void testUpdateProductService() throws Exception{
-// 		Product testProduct11=new Product();
-// 		testProduct11.setId(UUID.randomUUID());
-// 		testProduct11.setName("Test Product");
-// 		testProduct11.setPrice(10.0);
-// 		addProduct(testProduct11);
-// 		assertTrue(
-// 			Arrays.stream(productService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("updateProduct")),
-// 			"ProductService should contain a method called updateProduct"
-// 		);
-// 		Product updatedProduct = productService.updateProduct(testProduct11.getId(), "UpdatedName", 20.0);
-// 		assertEquals(updatedProduct.getId(),testProduct11.getId(),"Product should be updated correctly");
-// 		assertEquals(updatedProduct.getName(),"UpdatedName","Product name should be updated correctly");
-// 		assertEquals(updatedProduct.getPrice(),20.0,"Product price should be updated correctly");
-// 	}
+
 
 // 	@Test
 // 	void testUpdateProductEndPoint() throws Exception{
@@ -1049,41 +563,6 @@
 // 		assertEquals(updatedProduct.getPrice(),20.0,"Product price should be updated correctly");
 // 	}
 
-// 	@Test
-// 	void testApplyDiscountRepository(){
-// 		Product testProduct13=new Product();
-// 		testProduct13.setId(UUID.randomUUID());
-// 		testProduct13.setName("Test Product");
-// 		testProduct13.setPrice(10.0);
-// 		addProduct(testProduct13);
-// 		assertTrue(
-// 			Arrays.stream(productRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("applyDiscount")),
-// 			"ProductRepository should contain a method called applyDiscount"
-// 		);
-// 		ArrayList<UUID> productIds=new ArrayList<>();
-// 		productIds.add(testProduct13.getId());
-// 		productRepository.applyDiscount(10.0, productIds);
-// 		assertEquals(9.0, ((Product)find("Product", testProduct13)).getPrice(),"Product should be updated correctly");
-// 	}
-
-// 	@Test
-// 	void testApplyDiscountService(){
-// 		Product testProduct14=new Product();
-// 		testProduct14.setId(UUID.randomUUID());
-// 		testProduct14.setName("Test Product");
-// 		testProduct14.setPrice(10.0);
-// 		addProduct(testProduct14);
-// 		assertTrue(
-// 			Arrays.stream(productService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("applyDiscount")),
-// 			"ProductService should contain a method called applyDiscount"
-// 		);
-// 		ArrayList<UUID> productIds=new ArrayList<>();
-// 		productIds.add(testProduct14.getId());
-// 		productService.applyDiscount(10.0, productIds);
-// 		assertEquals(9.0, ((Product)find("Product", testProduct14)).getPrice(),"Product should be updated correctly");
-// 	}
 
 // 	@Test
 // 	void testApplyDiscountEndPoint() throws Exception{
@@ -1103,71 +582,7 @@
 // 		assertEquals(9.0, ((Product)find("Product", testProduct15)).getPrice(),"Product should be updated correctly");
 // 	}
 
-// 	@Test
-// 	void testDeleteProductByIdRepository1() throws Exception{
-// 		Product testProduct13=new Product();
-// 		testProduct13.setId(UUID.randomUUID());
-// 		testProduct13.setName("Test Product");
-// 		testProduct13.setPrice(10.0);
-// 		addProduct(testProduct13);
-// 		assertTrue(
-// 			Arrays.stream(productRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteProductById")),
-// 			"ProductRepository should contain a method called deleteProductById"
-// 		);
-// 		productRepository.deleteProductById(testProduct13.getId());
-// 		assertNull(find("Product", testProduct13),"Product should be deleted correctly");
-// 	}
-// 	@Test
-// 	void testDeleteProductByIdRepository2() throws Exception{
-		
-// 		assertTrue(
-// 			Arrays.stream(productRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteProductById")),
-// 			"ProductRepository should contain a method called deleteProductById"
-// 		);
-// 		boolean exceptionThrown=false;
-// 		try{
 
-// 			productRepository.deleteProductById(UUID.randomUUID());
-// 		}catch(Exception e){
-// 			exceptionThrown=true;
-// 		}
-// 		assertTrue(exceptionThrown,"No Product should be found");
-// 	}
-// 	@Test
-// 	void testDeleteProductByIdService1() throws Exception{
-// 		Product testProduct14=new Product();
-// 		testProduct14.setId(UUID.randomUUID());
-// 		testProduct14.setName("Test Product");
-// 		testProduct14.setPrice(10.0);
-// 		addProduct(testProduct14);
-// 		assertTrue(
-// 			Arrays.stream(productService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteProductById")),
-// 			"ProductService should contain a method called deleteProductById"
-// 		);
-// 		productService.deleteProductById(testProduct14.getId());
-// 		assertNull(find("Product", testProduct14),"Product should be deleted correctly");
-// 	}
-
-// 	@Test
-// 	void testDeleteProductByIdService2() throws Exception{
-		
-// 		assertTrue(
-// 			Arrays.stream(productService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteProductById")),
-// 			"ProductService should contain a method called deleteProductById"
-// 		);
-// 		boolean exceptionThrown=false;
-// 		try{
-
-// 			productService.deleteProductById(UUID.randomUUID());
-// 		}catch(Exception e){
-// 			exceptionThrown=true;
-// 		}
-// 		assertTrue(exceptionThrown,"No Product should be found");
-// 	}
 // 	@Test
 // 	void testDeleteProductByIdEndPoint1() throws Exception{
 // 		Product testProduct15=new Product();
@@ -1183,37 +598,9 @@
 // 	// --------------------------------- Cart Tests -------------------------
 
 
-// 	@Test
-// 	void testAddCartRepository() throws Exception{
-// 		User testUser19=new User();
-// 		testUser19.setId(UUID.randomUUID());
-// 		testUser19.setName("Test User19");
-// 		addUser(testUser19);
-// 		assertTrue(
-// 			Arrays.stream(cartRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("addCart")),
-// 			"CartRepository should contain a method called addCart"
-// 		);
-// 		Cart cart = new Cart(UUID.randomUUID(), testUser19.getId(), new ArrayList<>());
-// 		cartRepository.addCart(cart);
-// 		assertNotNull(find("Cart",cart),"Cart should be added correctly");
-// 	}
+	
 
-// 	@Test
-// 	void testAddCartService() throws Exception{
-// 		User testUser20=new User();
-// 		testUser20.setId(UUID.randomUUID());
-// 		testUser20.setName("Test User20");
-// 		addUser(testUser20);
-// 		assertTrue(
-// 			Arrays.stream(cartService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("addCart")),
-// 			"CartService should contain a method called addCart"
-// 		);
-// 		Cart cart = new Cart(UUID.randomUUID(), testUser20.getId(), new ArrayList<>());
-// 		cartService.addCart(cart);
-// 		assertNotNull(find("Cart",cart),"Cart should be added correctly");
-// 	}
+	
 
 // 	@Test
 // 	void testAddCartEndPoint() throws Exception{
@@ -1236,29 +623,9 @@
 // 		assertTrue(found,"Cart should be added correctly");
 // 	}
 
-// 	@Test
-// 	void testGetCartsRepository(){
-// 		assertTrue(
-// 			Arrays.stream(cartRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getCarts")),
-// 			"CartRepository should contain a method called getCarts"
-// 		);
-// 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		addCart(cart);
-// 		assertEquals(cartRepository.getCarts().size(), getCarts().size(), "Carts should be returned correctly");
-// 	}
+	
 
-// 	@Test
-// 	void testGetCartsService(){
-// 		assertTrue(
-// 			Arrays.stream(cartService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getCarts")),
-// 			"CartService should contain a method called getCarts"
-// 		);
-// 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		addCart(cart);
-// 		assertEquals(cartService.getCarts().size(), getCarts().size(), "Carts should be returned correctly");
-// 	}
+	
 
 // 	@Test
 // 	void testGetCartsEndPoint() throws Exception{
@@ -1273,31 +640,8 @@
 // 		assertEquals(getCarts().size(), responseCarts.size(), "Carts should be returned correctly From Endpoint");
 // 	}
 
-// 	@Test
-// 	void testGetCartByIdRepository() throws Exception{
-// 		assertTrue(
-// 			Arrays.stream(cartRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getCartById")),
-// 			"CartRepository should contain a method called getCartById"
-// 		);
-// 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		addCart(cart);
-// 		assertEquals(cart.getId(), cartRepository.getCartById(cart.getId()).getId(),"Cart should be returned correctly");
-// 		assertEquals(null, cartRepository.getCartById(UUID.randomUUID()), "No Cart Should be found");
-// 	}
 
-// 	@Test
-// 	void testGetCartByIdService() throws Exception{
-// 		assertTrue(
-// 			Arrays.stream(cartService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getCartById")),
-// 			"CartService should contain a method called getCartById"
-// 		);
-// 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		addCart(cart);
-// 		assertEquals(cart.getId(), cartService.getCartById(cart.getId()).getId(),"Cart should be returned correctly");
-// 		assertEquals(null, cartService.getCartById(UUID.randomUUID()), "No Cart Should be found");
-// 	}
+	
 
 // 	@Test
 // 	void testGetCartByIdEndPoint() throws Exception{
@@ -1308,46 +652,10 @@
 // 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(cart)));
 // 	}
 
-// 	@Test
-// 	void testDeleteCartByIdRepository1(){
-// 		assertTrue(
-// 			Arrays.stream(cartRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteCartById")),
-// 			"CartRepository should contain a method called deleteCartById"
-// 		);
-// 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		addCart(cart);
-// 		cartRepository.deleteCartById(cart.getId());
-// 		assertNull(find("Cart", cart),"Cart should be deleted correctly");
-// 	}
-// 	@Test
-// 	void testDeleteCartByIdRepository2(){
-// 		assertTrue(
-// 			Arrays.stream(cartRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteCartById")),
-// 			"CartRepository should contain a method called deleteCartById"
-// 		);
-// 		boolean exceptionThrown=false;
-// 		try{
-// 			cartRepository.deleteCartById(UUID.randomUUID());
-// 		}catch(Exception e){
-// 			exceptionThrown=true;
-// 		}
-// 		assertTrue(exceptionThrown,"No Cart should be found");
-// 	}
+	
+	
 
-// 	@Test
-// 	void testDeleteCartByIdService(){
-// 		assertTrue(
-// 			Arrays.stream(cartService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteCartById")),
-// 			"CartService should contain a method called deleteCartById"
-// 		);
-// 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		addCart(cart);
-// 		cartService.deleteCartById(cart.getId());
-// 		assertNull(find("Cart", cart),"Cart should be deleted correctly");
-// 	}
+	
 
 // 	@Test
 // 	void testDeleteCartByIdEndPoint() throws Exception{
@@ -1361,30 +669,8 @@
 
 // 	// --------------------------------- Order Tests -------------------------
 
-// 	@Test
-// 	void testAddOrderRepository(){
-
-// 		assertTrue(
-// 			Arrays.stream(orderRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("addOrder")),
-// 			"OrderRepository should contain a method called addOrder"
-// 		);
-// 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		orderRepository.addOrder(order);
-// 		assertNotNull(find("Order", order),"Order should be added correctly");
-// 	}
-// 	@Test
-// 	void testAddOrderService(){
-		
-// 		assertTrue(
-// 			Arrays.stream(orderService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("addOrder")),
-// 			"OrderService should contain a method called addOrder"
-// 		);
-// 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		orderService.addOrder(order);
-// 		assertNotNull(find("Order", order),"Order should be added correctly");
-// 	}
+	
+	
 	
 // 	@Test
 // 	void testAddOrderEndPoint() throws Exception{
@@ -1403,29 +689,9 @@
 // 		assertTrue(found,"Order should be added correctly from Endpoint");
 // 	}
 
-// 	@Test
-// 	void testGetOrdersRepository(){
-// 		assertTrue(
-// 			Arrays.stream(orderRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getOrders")),
-// 			"OrderRepository should contain a method called getOrders"
-// 		);
-// 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		addOrder(order);
-// 		assertEquals(getOrders().size(), orderRepository.getOrders().size(), "Orders should be returned correctly");
-// 	}
+	
 
-// 	@Test
-// 	void testGetOrdersService(){
-// 		assertTrue(
-// 			Arrays.stream(orderService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getOrders")),
-// 			"OrderService should contain a method called getOrders"
-// 		);
-// 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		addOrder(order);
-// 		assertEquals(getOrders().size(), orderService.getOrders().size(), "Orders should be returned correctly");
-// 	}
+	
 
 // 	@Test
 // 	void testGetOrdersEndPoint() throws Exception{
@@ -1441,31 +707,9 @@
 // 		assertEquals(getOrders().size(), responseOrders.size(), "Orders should be returned correctly From Endpoint");
 // 	}
 
-// 	@Test
-// 	void testGetOrderByIdRepository(){
-// 		assertTrue(
-// 			Arrays.stream(orderRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getOrderById")),
-// 			"OrderRepository should contain a method called getOrderById"
-// 		);
-// 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		addOrder(order);
-// 		assertEquals(order.getId(), orderRepository.getOrderById(order.getId()).getId(),"Order should be returned correctly");
-// 		assertEquals(null, orderRepository.getOrderById(UUID.randomUUID()), "No Order Should be found");
-// 	}
+	
 
-// 	@Test
-// 	void testGetOrderByIdService(){
-// 		assertTrue(
-// 			Arrays.stream(orderService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("getOrderById")),
-// 			"OrderService should contain a method called getOrderById"
-// 		);
-// 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		addOrder(order);
-// 		assertEquals(order.getId(), orderService.getOrderById(order.getId()).getId(),"Order should be returned correctly");
-// 		assertEquals(null, orderService.getOrderById(UUID.randomUUID()), "No Order Should be found");
-// 	}
+	
 
 // 	@Test
 // 	void testGetOrderByIdEndPoint() throws Exception{
@@ -1480,31 +724,8 @@
 // 		// assertEquals(order.getId(), responseOrder.getId(), "Order should be returned correctly From Endpoint");
 // 	}
 
-// 	@Test
-// 	void testDeleteOrderByIdRepository(){
-// 		assertTrue(
-// 			Arrays.stream(orderRepository.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteOrderById")),
-// 			"OrderRepository should contain a method called deleteOrderById"
-// 		);
-// 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		addOrder(order);
-// 		orderRepository.deleteOrderById(order.getId());
-// 		assertNull(find("Order", order),"Order should be deleted correctly");
-// 	}
-
-// 	@Test
-// 	void testDeleteOrderByIdService(){
-// 		assertTrue(
-// 			Arrays.stream(orderService.getClass().getMethods())
-// 				.anyMatch(method -> method.getName().equals("deleteOrderById")),
-// 			"OrderService should contain a method called deleteOrderById"
-// 		);
-// 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
-// 		addOrder(order);
-// 		orderService.deleteOrderById(order.getId());
-// 		assertNull(find("Order", order),"Order should be deleted correctly");
-// 	}
+	
+	
 
 // 	@Test
 // 	void testDeleteOrderByIdEndPoint() throws Exception{
