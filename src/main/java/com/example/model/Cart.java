@@ -1,68 +1,56 @@
 package com.example.model;
 
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Component
+
 public class Cart {
     private UUID id;
     private UUID userId;
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
 
-    // Default constructor
     public Cart() {
         this.id = UUID.randomUUID();
+        this.products = new ArrayList<>();
     }
 
-    // Parameterized constructor
-    public Cart(UUID userId, List<Product> products) {
+    public Cart(UUID userId) {
         this.id = UUID.randomUUID();
         this.userId = userId;
-        this.products = new ArrayList<>(products);
+        this.products = new ArrayList<>();
     }
 
-    // Copy constructor
-    public Cart(Cart other) {
-        this.id = other.id;
-        this.userId = other.userId;
-        this.products = new ArrayList<>(other.products);
+    public Cart(UUID id, UUID userId, List<Product> products) {
+        this.id = id;
+        this.userId = userId;
+        this.products = products != null ? new ArrayList<>(products) : new ArrayList<>();
     }
 
-    // Getters and Setters
     public UUID getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public UUID getUserId() {
         return userId;
     }
 
+    public List<Product> getProducts() {
+        return new ArrayList<>(products);
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public void setUserId(UUID userId) {
         this.userId = userId;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
     public void setProducts(List<Product> products) {
-        this.products = products;
-    }
+        this.products = products != null ? new ArrayList<>(products) : new ArrayList<>();
 
-    // Add a product to the cart
-    public void addProduct(Product product) {
-        this.products.add(product);
-    }
-
-    // Remove a product from the cart
-    public void removeProduct(Product product) {
-        this.products.remove(product);
     }
 }
+
