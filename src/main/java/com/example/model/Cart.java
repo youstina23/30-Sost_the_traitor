@@ -1,8 +1,10 @@
 package com.example.model;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 
 public class Cart {
     private UUID id;
@@ -48,6 +50,7 @@ public class Cart {
 
     public void setProducts(List<Product> products) {
         this.products = products != null ? new ArrayList<>(products) : new ArrayList<>();
+
     }
 }
 
