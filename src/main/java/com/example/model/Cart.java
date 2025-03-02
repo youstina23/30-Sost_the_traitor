@@ -11,23 +11,21 @@ import java.util.UUID;
 public class Cart {
     private UUID id;
     private UUID userId;
-    private List<Product> products;
+    private List<Product> products= new ArrayList<>();
 
     public Cart() {
-        this.id = UUID.randomUUID();
-        this.products = new ArrayList<>();
     }
 
-    public Cart(UUID userId) {
+    public Cart(UUID userId, List<Product> products) {
         this.id = UUID.randomUUID();
         this.userId = userId;
-        this.products = new ArrayList<>();
+        this.products = products;
     }
 
     public Cart(UUID id, UUID userId, List<Product> products) {
         this.id = id;
         this.userId = userId;
-        this.products = products != null ? new ArrayList<>(products) : new ArrayList<>();
+        this.products = products;
     }
 
     public UUID getId() {

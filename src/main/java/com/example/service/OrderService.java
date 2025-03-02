@@ -21,9 +21,11 @@ public class OrderService  extends MainService<Order> {
     public void addOrder(Order order){
         orderRepository.addOrder(order);
     }
+
     public ArrayList<Order> getOrders(){
         return orderRepository.getOrders();
     }
+
     public Order getOrderById(UUID orderId){
 
         Optional<Order> order = Optional.ofNullable(orderRepository.getOrderById(orderId));

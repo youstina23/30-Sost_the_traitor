@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
+@SuppressWarnings("rawtypes")
 public class UserRepository extends MainRepository<User> {
 
     private static final String DATA_PATH = "./data/users.json";

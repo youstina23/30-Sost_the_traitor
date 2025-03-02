@@ -66,8 +66,8 @@ public class UserController {
         return "Cart emptied";
     }
 
-    @PutMapping("/{userId}/addProductToCart")
-    public String addProductToCart(@PathVariable UUID userId, @RequestBody UUID productId) {
+    @PutMapping("/addProductToCart")
+    public String addProductToCart(@RequestParam UUID userId, @RequestParam UUID productId) {
         Cart cart = cartService.getCartByUserId(userId);
         if (cart == null) {
             throw new RuntimeException("Cart not found");
@@ -77,8 +77,8 @@ public class UserController {
         return "Product added to cart";
     }
 
-    @PutMapping("/{userId}/deleteProductFromCart")
-    public String deleteProductFromCart(@PathVariable UUID userId, @RequestBody UUID productId) {
+    @PutMapping("/deleteProductFromCart")
+    public String deleteProductFromCart(@RequestParam UUID userId, @RequestParam UUID productId) {
         Cart cart = cartService.getCartByUserId(userId);
         if (cart == null) {
             throw new RuntimeException("Cart not found");

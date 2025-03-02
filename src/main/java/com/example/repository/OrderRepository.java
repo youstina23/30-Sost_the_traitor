@@ -26,6 +26,7 @@ public class OrderRepository extends MainRepository<Order> {
     protected Class<Order[]> getArrayType() {
         return null;
     }
+
     public void addOrder(Order order){
         save(order);
 
@@ -33,6 +34,7 @@ public class OrderRepository extends MainRepository<Order> {
     public ArrayList<Order> getOrders(){
         return findAll();
     }
+
     public Order getOrderById(UUID orderId){
         return findAll().stream()
                 .filter(order -> order.getId().equals(orderId))

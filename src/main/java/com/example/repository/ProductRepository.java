@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
+@SuppressWarnings("rawtypes")
 public class ProductRepository extends MainRepository<Product> {
 
     private static final String DATA_PATH = "./data/products.json";

@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
+@SuppressWarnings("rawtypes")
 public class CartRepository extends MainRepository<Cart> {
 
     private static final String DATA_PATH = "./data/carts.json";
@@ -35,7 +36,7 @@ public class CartRepository extends MainRepository<Cart> {
     }
 
     public Cart getCartById(UUID cartId) {
-        return findAll().stream() // Reads from carts.json
+        return findAll().stream()
                 .filter(cart -> cart.getId().equals(cartId))
                 .findFirst()
                 .orElse(null);
@@ -51,17 +52,14 @@ public class CartRepository extends MainRepository<Cart> {
 
     public void addProductToCart(UUID cartId, Product product) {
         ArrayList<Cart> carts = findAll();
-
-        // Find the cart by ID
         Cart cart = carts.stream()
                 .filter(c -> c.getId().equals(cartId))
                 .findFirst()
                 .orElse(null);
 
         if (cart != null) {
-            // Add the new product to the cart's product list
             cart.getProducts().add(product);
-            saveAll(carts); // Save updated carts list to JSON file
+            saveAll(carts);
         }
     }
 
@@ -70,17 +68,15 @@ public class CartRepository extends MainRepository<Cart> {
     public void deleteProductFromCart(UUID cartId, Product product) {
         ArrayList<Cart> carts = findAll();
 
-        // Find the cart by ID
         Cart cart = carts.stream()
                 .filter(c -> c.getId().equals(cartId))
                 .findFirst()
                 .orElse(null);
 
         if (cart != null) {
-            // Remove the product from the cart's product list
+
             cart.getProducts().removeIf(p -> p.getId().equals(product.getId()));
 
-            // Save the updated cart list
             saveAll(carts);
         }
     }
@@ -88,10 +84,8 @@ public class CartRepository extends MainRepository<Cart> {
     public void deleteCartById(UUID cartId) {
         ArrayList<Cart> carts = findAll();
 
-        // Remove the cart with the matching ID
         carts.removeIf(cart -> cart.getId().equals(cartId));
 
-        // Save the updated carts list back to JSON
         saveAll(carts);
     }
 

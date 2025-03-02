@@ -25,6 +25,7 @@ public class Order {
     }
 
     public Order(UUID userId, double totalPrice, List<Product> products) {
+        this.id = UUID.randomUUID();
         this.userId = userId;
         this.totalPrice = totalPrice;
         this.products = products;
