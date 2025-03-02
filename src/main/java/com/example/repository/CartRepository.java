@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 @SuppressWarnings("rawtypes")
 public class CartRepository extends MainRepository<Cart> {
 
-    private static final String DATA_PATH = "./data/carts.json";
+//    private static final String DATA_PATH = System.getenv("CART_DATA_PATH");
+private static final String DATA_PATH = "src/main/java/com/example/data/carts.json";
 
     @Override
     protected String getDataPath() {

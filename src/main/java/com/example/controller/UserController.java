@@ -18,14 +18,16 @@ import java.util.UUID;
 @RequestMapping("/user")
 public class UserController {
 
+    private final Cart cart;
     ProductService productService;
     UserService userService;
     CartService cartService;
     @Autowired
-    public UserController(UserService userService, CartService cartService, ProductService productService) {
+    public UserController(UserService userService, CartService cartService, ProductService productService, Cart cart) {
         this.userService = userService;
         this.cartService = cartService;
         this.productService = productService;
+        this.cart = cart;
     }
 
     @PostMapping("/")
@@ -51,28 +53,32 @@ public class UserController {
     @PostMapping("/{userId}/checkout")
     public String addOrderToUser(@PathVariable UUID userId) {
         userService.addOrderToUser(userId);
-        return "Order added to user";
+        return "Order added successfully";
     }
 
     @PostMapping("/{userId}/removeOrder")
     public String removeOrderFromUser(@PathVariable UUID userId, @RequestParam UUID orderId) {
         userService.removeOrderFromUser(userId, orderId);
-        return "Order removed from user";
+        return "Order removed successfully";
     }
 
     @DeleteMapping("/{userId}/emptyCart")
     public String emptyCart(@PathVariable UUID userId) {
         userService.emptyCart(userId);
-        return "Cart emptied";
+        return "Cart emptied successfully";
     }
 
     @PutMapping("/addProductToCart")
     public String addProductToCart(@RequestParam UUID userId, @RequestParam UUID productId) {
         Cart cart = cartService.getCartByUserId(userId);
         if (cart == null) {
-            throw new RuntimeException("Cart not found");
+            cart = new Cart(userId, new ArrayList<>());
+            cart = cartService.addCart(cart);
         }
         Product product = productService.getProductById(productId);
+        if (product == null) {
+            throw new RuntimeException("Product not found");
+        }
         cartService.addProductToCart(cart.getId(), product);
         return "Product added to cart";
     }
@@ -85,12 +91,16 @@ public class UserController {
         }
         Product product = productService.getProductById(productId);
         cartService.deleteProductFromCart(cart.getId(), product);
-        return "Product removed from cart.";
+        return "Product deleted from cart";
     }
 
     @DeleteMapping("/delete/{userId}")
     public String deleteUserById(@PathVariable UUID userId) {
+        User user = userService.getUserById(userId);
+        if(user == null) {
+            throw new RuntimeException("User not found");
+        }
         userService.deleteUserById(userId);
-        return "User deleted";
+        return "User deleted successfully";
     }
 }

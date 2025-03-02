@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 @SuppressWarnings("rawtypes")
 public class ProductRepository extends MainRepository<Product> {
 
-    private static final String DATA_PATH = "./data/products.json";
-
+//    private static final String DATA_PATH = System.getenv("PRODUCT_DATA_PATH");;
+private static final String DATA_PATH = "src/main/java/com/example/data/products.json";
     @Override
     protected String getDataPath() {
         return DATA_PATH;

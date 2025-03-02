@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 @SuppressWarnings("rawtypes")
 public class UserRepository extends MainRepository<User> {
 
-    private static final String DATA_PATH = "./data/users.json";
+//    private static final String DATA_PATH = System.getenv("USER_DATA_PATH");;
+private static final String DATA_PATH = "src/main/java/com/example/data/users.json";
 
     @Override
     protected String getDataPath() {

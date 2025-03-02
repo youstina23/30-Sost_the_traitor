@@ -10,21 +10,19 @@ import java.util.UUID;
 @Repository
 @SuppressWarnings("rawtypes")
 public class OrderRepository extends MainRepository<Order> {
-    private static final String DATA_PATH = "./data/orders.json";
-    private final Order order;
+//    private static final String DATA_PATH = System.getenv("ORDER_DATA_PATH");
+    private static final String DATA_PATH = "src/main/java/com/example/data/orders.json";
 
-    public OrderRepository(Order order) {
-        this.order = order;
-    }
+    public OrderRepository() {}
 
     @Override
     protected String getDataPath() {
-        return "";
+        return DATA_PATH;
     }
 
     @Override
     protected Class<Order[]> getArrayType() {
-        return null;
+        return Order[].class;
     }
 
     public void addOrder(Order order){
