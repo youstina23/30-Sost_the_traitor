@@ -1,6 +1,8 @@
 package com.example.service;
 
+import com.example.model.Cart;
 import com.example.model.Order;
+import com.example.model.Product;
 import com.example.model.User;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,13 @@ import java.util.UUID;
 public class UserService extends MainService<User>{
 
     UserRepository userRepository;
+    CartService cartService;
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, CartService cartService) {
         this.userRepository = userRepository;
+        this.cartService = cartService;
     }
+
 
     public User addUser(User user) {
         return userRepository.addUser(user);
@@ -36,20 +41,40 @@ public class UserService extends MainService<User>{
         return userRepository.getOrdersByUserId(userId);
     }
 
-    public void addOrderToUser(UUID userId, Order order) {
+    public void addOrderToUser(UUID userId) {
         User user = userRepository.getUserById(userId);
         if (user == null) {
             throw new RuntimeException("User not found");
         }
+        Cart cart = cartService.getCartByUserId(userId);
+        if (cart == null) {
+            throw new RuntimeException("Cart not found");
+        }
+        if (cart.getProducts().isEmpty()) {
+            throw new RuntimeException("Cart empty");
+        }
 
-//        Order newOrder = cartService.createOrderFromCart(userId);
-//        cartService.clearCart(userId);
-//        userRepository.save(user);
+        double totalPrice = 0;
+        for (Product product : cart.getProducts()) {
+            totalPrice += product.getPrice();
+        }
+
+        Order order = new Order(userId, totalPrice, cart.getProducts());
+
+        cartService.deleteCartById(cart.getId());
 
         userRepository.addOrderToUser(userId, order);
     }
 
-    public void emptyCart(UUID userId){};
+    public void emptyCart(UUID userId){
+        Cart cart = cartService.getCartByUserId(userId);
+        if (cart == null) {
+            throw new RuntimeException("Cart not found");
+        }
+        for (Product product : new ArrayList<>(cart.getProducts())) {
+            cartService.deleteProductFromCart(cart.getId(), product);
+        }
+    };
 
     public void removeOrderFromUser(UUID userId, UUID orderId) {
         userRepository.removeOrderFromUser(userId, orderId);
