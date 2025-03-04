@@ -19,8 +19,8 @@ public class CartController {
     }
 
     @PostMapping("/")
-    public Cart addCart(@RequestBody Cart cart) {
-        return cartService.addCart(cart);
+    public void addCart(@RequestBody Cart cart) {
+        cartService.addCart(cart);
     }
 
     // 🔹 Get All Carts

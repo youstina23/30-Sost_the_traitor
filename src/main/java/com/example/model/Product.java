@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class Product {
+public class Product implements Model {
 
     private UUID id;
     private String name;

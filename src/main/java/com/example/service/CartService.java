@@ -17,20 +17,21 @@ public class CartService extends MainService<Cart> {
 
     @Autowired
     public CartService(CartRepository cartRepository) {
+        super(cartRepository);
         this.cartRepository = cartRepository;
     }
 
-    public Cart addCart(Cart cart) {
-        return cartRepository.addCart(cart);
+    public void addCart(Cart cart) {
+        add(cart);
     }
 
     public ArrayList<Cart> getCarts() {
-        return cartRepository.getCarts();
+        return getAll();
     }
 
 
     public Cart getCartById(UUID cartId) {
-        return cartRepository.getCartById(cartId);
+        return getById(cartId);
     }
 
 
@@ -50,6 +51,6 @@ public class CartService extends MainService<Cart> {
 
 
     public void deleteCartById(UUID cartId) {
-        cartRepository.deleteCartById(cartId);
+        delete(cartId);
     }
 }

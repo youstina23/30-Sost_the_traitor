@@ -83,11 +83,7 @@ private static final String DATA_PATH = "src/main/java/com/example/data/carts.js
     }
 
     public void deleteCartById(UUID cartId) {
-        ArrayList<Cart> carts = findAll();
-
-        carts.removeIf(cart -> cart.getId().equals(cartId));
-
-        saveAll(carts);
+        delete(cartId);
     }
 
 

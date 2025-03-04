@@ -15,16 +15,21 @@ public class ProductService extends MainService<Product> {
     @Autowired
     private ProductRepository productRepository;
 
-    public Product addProduct(Product product) {
-        return productRepository.addProduct(product);
+    public ProductService(ProductRepository productRepository) {
+        super(productRepository);
+        this.productRepository = productRepository;
+    }
+
+    public void addProduct(Product product) {
+        add(product);
     }
 
     public ArrayList<Product> getProducts() {
-        return productRepository.getProducts();
+        return getAll();
     }
 
     public Product getProductById(UUID productId) {
-        return productRepository.getProductById(productId);
+        return getById(productId);
     }
 
     public Product updateProduct(UUID productId, String newName, double newPrice) {
@@ -36,6 +41,6 @@ public class ProductService extends MainService<Product> {
     }
 
     public void deleteProductById(UUID productId) {
-        productRepository.deleteProductById(productId);
+        delete(productId);
     }
 }

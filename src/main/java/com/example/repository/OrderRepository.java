@@ -40,9 +40,6 @@ public class OrderRepository extends MainRepository<Order> {
                 .orElse(null);
     }
     public void deleteOrderById(UUID orderId){
-
-        ArrayList<Order> orders = findAll();
-        orders.removeIf(order-> order.getId().equals(orderId));
-        saveAll(orders);
+        delete(orderId);
     }
 }
