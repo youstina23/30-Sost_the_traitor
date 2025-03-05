@@ -15,6 +15,7 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
     @PostMapping("/")
     public void addOrder(@RequestBody Order order){
         orderService.addOrder(order);
@@ -32,7 +33,11 @@ public class OrderController {
 
     @DeleteMapping("/delete/{orderId}")
     public String deleteOrderById(@PathVariable UUID orderId){
-        orderService.deleteOrderById(orderId);
-        return "Order deleted successfully";
+        try {
+            orderService.deleteOrderById(orderId);
+            return "Order deleted successfully";
+        } catch (IllegalArgumentException e) {
+            return "Order not found";
+        }
     }
 }

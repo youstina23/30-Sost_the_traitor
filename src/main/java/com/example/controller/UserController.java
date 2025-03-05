@@ -31,8 +31,8 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public void addUser(@RequestBody User user) {
-        userService.addUser(user);
+    public User addUser(@RequestBody User user) {
+        return userService.addUser(user);
     }
 
     @GetMapping("/")
@@ -86,11 +86,17 @@ public class UserController {
     @PutMapping("/deleteProductFromCart")
     public String deleteProductFromCart(@RequestParam UUID userId, @RequestParam UUID productId) {
         Cart cart = cartService.getCartByUserId(userId);
-        if (cart == null) {
-            throw new RuntimeException("Cart not found");
+        if (cart == null || cartService.getCartById(cart.getId()).getProducts().isEmpty()) {
+            return "Cart is empty";
         }
+
         Product product = productService.getProductById(productId);
         cartService.deleteProductFromCart(cart.getId(), product);
+
+
+//        if(cartService.getCartById(cart.getId()).getProducts().isEmpty()){
+//            return "Cart is empty";
+//        }
         return "Product deleted from cart";
     }
 
@@ -98,7 +104,7 @@ public class UserController {
     public String deleteUserById(@PathVariable UUID userId) {
         User user = userService.getUserById(userId);
         if(user == null) {
-            throw new RuntimeException("User not found");
+            return "User not found";
         }
         userService.deleteUserById(userId);
         return "User deleted successfully";

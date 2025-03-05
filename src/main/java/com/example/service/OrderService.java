@@ -24,25 +24,24 @@ public class OrderService  extends MainService<Order> {
     private User user;
 
     public OrderService(OrderRepository orderRepository, @Lazy UserService userService) {
-        super(orderRepository);
         this.orderRepository = orderRepository;
         this.userService = userService;
     }
 
     public void addOrder(Order order){
-        add(order);
+        orderRepository.addOrder(order);
     }
 
     public ArrayList<Order> getOrders(){
-        return getAll();
+        return orderRepository.getOrders();
     }
 
     public Order getOrderById(UUID orderId){
-        Optional<Order> order = Optional.ofNullable(orderRepository.getOrderById(orderId));
-        if (order.isEmpty()) {
+        Order order = orderRepository.getOrderById(orderId);
+        if (order == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
         }
-        return getById(orderId);
+        return order;
     }
 
     public void deleteOrderById(UUID orderId) throws IllegalArgumentException{
@@ -51,9 +50,9 @@ public class OrderService  extends MainService<Order> {
         if (order == null) {
             throw new IllegalArgumentException("Order not found");
         }
-        userService.removeOrderFromUser(order.getUserId(), orderId);
+
+//        userService.removeOrderFromUser(order.getUserId(), orderId);
         orderRepository.deleteOrderById(orderId);
-//        delete(orderId);
     }
 }
 

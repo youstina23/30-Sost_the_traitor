@@ -17,8 +17,8 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping("/")
-    public void addProduct(@RequestBody Product product) {
-        productService.addProduct(product);
+    public Product addProduct(@RequestBody Product product) {
+        return productService.addProduct(product);
     }
 
     @GetMapping("/")
@@ -33,8 +33,8 @@ public class ProductController {
 
     @PutMapping("/update/{productId}")
     public Product updateProduct(@PathVariable UUID productId, @RequestBody Map<String, Object> body) {
-        String newName = (String) body.get("name");
-        double newPrice = Double.parseDouble(body.get("price").toString());
+        String newName = (String) body.get("newName");
+        double newPrice = Double.parseDouble(body.get("newPrice").toString());
         return productService.updateProduct(productId, newName, newPrice);
     }
 

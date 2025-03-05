@@ -16,20 +16,19 @@ public class ProductService extends MainService<Product> {
     private ProductRepository productRepository;
 
     public ProductService(ProductRepository productRepository) {
-        super(productRepository);
         this.productRepository = productRepository;
     }
 
-    public void addProduct(Product product) {
-        add(product);
+    public Product addProduct(Product product) {
+        return productRepository.addProduct(product);
     }
 
     public ArrayList<Product> getProducts() {
-        return getAll();
+        return productRepository.getProducts();
     }
 
     public Product getProductById(UUID productId) {
-        return getById(productId);
+        return productRepository.getProductById(productId);
     }
 
     public Product updateProduct(UUID productId, String newName, double newPrice) {
@@ -41,6 +40,6 @@ public class ProductService extends MainService<Product> {
     }
 
     public void deleteProductById(UUID productId) {
-        delete(productId);
+        productRepository.deleteProductById(productId);
     }
 }
