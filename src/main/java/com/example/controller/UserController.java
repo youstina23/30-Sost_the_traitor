@@ -31,8 +31,8 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public User addUser(@RequestBody User user) {
-        return userService.addUser(user);
+    public void addUser(@RequestBody User user) {
+        userService.addUser(user);
     }
 
     @GetMapping("/")
@@ -73,7 +73,7 @@ public class UserController {
         Cart cart = cartService.getCartByUserId(userId);
         if (cart == null) {
             cart = new Cart(userId, new ArrayList<>());
-            cart = cartService.addCart(cart);
+            cartService.addCart(cart);
         }
         Product product = productService.getProductById(productId);
         if (product == null) {

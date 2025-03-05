@@ -66,8 +66,6 @@ private static final String DATA_PATH = "src/main/java/com/example/data/products
     }
 
     public void deleteProductById(UUID productId) {
-        ArrayList<Product> products = findAll();
-        products.removeIf(product -> product.getId().equals(productId));
-        saveAll(products);
+        delete(productId);
     }
 }

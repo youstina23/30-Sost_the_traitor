@@ -5,14 +5,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.example.model.Cart;
+import com.example.model.Model;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
+import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Primary
 @Repository
-public abstract class MainRepository<T> {
+public abstract class MainRepository<T extends Model> {
 
     protected ObjectMapper objectMapper = new ObjectMapper();
     
@@ -22,6 +25,22 @@ public abstract class MainRepository<T> {
     public MainRepository(){
 
     }
+
+    public T findById(UUID id) {
+        try {
+            ArrayList<T> entities = findAll();
+            for (T entity : entities) {
+                UUID entityId = (UUID) entity.getClass().getMethod("getId").invoke(entity);
+                if (entityId.equals(id)) {
+                    return entity;
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error finding entity by ID: " + id, e);
+        }
+        return null; // or throw an exception if preferred
+    }
+
     public ArrayList<T> findAll() {
         try {
             File file = new File(getDataPath());
@@ -54,6 +73,14 @@ public abstract class MainRepository<T> {
 
     public void overrideData(ArrayList<T> data) {
         saveAll(data);
+    }
+
+    public void delete(UUID id) {
+        ArrayList<T> ts = findAll();
+
+        ts.removeIf(t -> t.getId().equals(id));
+
+        saveAll(ts);
     }
 
     

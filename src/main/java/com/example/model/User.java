@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class User {
+public class User implements Model {
 
     private UUID id;
     private String name;

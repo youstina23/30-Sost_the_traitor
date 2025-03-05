@@ -61,8 +61,6 @@ private static final String DATA_PATH = "src/main/java/com/example/data/users.js
     }
 
     public void deleteUserById(UUID userId) {
-        ArrayList<User> users = findAll();
-        users.removeIf(user -> user.getId().equals(userId));
-        saveAll(users);
+        delete(userId);
     }
 }

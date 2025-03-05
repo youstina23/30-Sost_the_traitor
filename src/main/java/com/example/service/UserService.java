@@ -18,23 +18,25 @@ public class UserService extends MainService<User>{
 
     UserRepository userRepository;
     CartService cartService;
+
     @Autowired
     public UserService(UserRepository userRepository, CartService cartService) {
+        super(userRepository);
         this.userRepository = userRepository;
         this.cartService = cartService;
     }
 
 
-    public User addUser(User user) {
-        return userRepository.addUser(user);
+    public void addUser(User user) {
+        add(user);
     }
 
     public ArrayList<User> getUsers() {
-        return userRepository.getUsers();
+        return getAll();
     }
 
     public User getUserById(UUID userId) {
-        return userRepository.getUserById(userId);
+        return getById(userId);
     }
 
     public List<Order> getOrdersByUserId(UUID userId) {
@@ -81,7 +83,7 @@ public class UserService extends MainService<User>{
     }
 
     public void deleteUserById(UUID userId) {
-        userRepository.deleteUserById(userId);
+        delete(userId);
     }
 
 }
