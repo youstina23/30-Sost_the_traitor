@@ -16,19 +16,22 @@ import java.util.UUID;
 @SuppressWarnings("rawtypes")
 public class UserService extends MainService<User>{
 
+    OrderService orderService;
     UserRepository userRepository;
     CartService cartService;
 
     @Autowired
-    public UserService(UserRepository userRepository, CartService cartService) {
+    public UserService(UserRepository userRepository, CartService cartService, OrderService orderService) {
         super(userRepository);
         this.userRepository = userRepository;
         this.cartService = cartService;
+        this.orderService = orderService;
     }
 
 
     public void addUser(User user) {
-        add(user);
+        userRepository.addUser(user);
+
     }
 
     public ArrayList<User> getUsers() {
@@ -36,7 +39,8 @@ public class UserService extends MainService<User>{
     }
 
     public User getUserById(UUID userId) {
-        return getById(userId);
+        return userRepository.getUserById(userId);
+//        return getById(userId);
     }
 
     public List<Order> getOrdersByUserId(UUID userId) {
@@ -63,6 +67,8 @@ public class UserService extends MainService<User>{
 
         Order order = new Order(userId, totalPrice, cart.getProducts());
 
+        orderService.addOrder(order);
+
         cartService.deleteCartById(cart.getId());
 
         userRepository.addOrderToUser(userId, order);
@@ -83,7 +89,8 @@ public class UserService extends MainService<User>{
     }
 
     public void deleteUserById(UUID userId) {
-        delete(userId);
+        userRepository.deleteUserById(userId);
+//        delete(userId);
     }
 
 }

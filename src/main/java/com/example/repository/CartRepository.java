@@ -59,7 +59,14 @@ private static final String DATA_PATH = "src/main/java/com/example/data/carts.js
                 .orElse(null);
 
         if (cart != null) {
-            cart.getProducts().add(product);
+            System.out.println(cart.getId()+"IDDD");
+            System.out.println(product.getId()+"product id");
+            System.out.println(cart.getProducts());
+
+            List<Product> updatedProducts = new ArrayList<>(cart.getProducts());
+            updatedProducts.add(product);
+            cart.setProducts(updatedProducts);
+            System.out.println(cart.getProducts());
             saveAll(carts);
         }
     }
@@ -76,8 +83,14 @@ private static final String DATA_PATH = "src/main/java/com/example/data/carts.js
 
         if (cart != null) {
 
-            cart.getProducts().removeIf(p -> p.getId().equals(product.getId()));
-
+            List<Product> updatedProducts = new ArrayList<>(cart.getProducts());
+            for (Iterator<Product> iterator = updatedProducts.iterator(); iterator.hasNext(); ) {
+                if (iterator.next().getId().equals(product.getId())) {
+                    iterator.remove(); // Remove only the first occurrence
+                    break; // Exit loop after removing one
+                }
+            }
+            cart.setProducts(updatedProducts);
             saveAll(carts);
         }
     }

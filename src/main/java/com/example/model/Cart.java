@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Component
 public class Cart implements Model {
-    private UUID id;
+    private UUID id= UUID.randomUUID();
     private UUID userId;
     private List<Product> products= new ArrayList<>();
 

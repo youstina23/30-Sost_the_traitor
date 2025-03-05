@@ -1,6 +1,7 @@
 package com.example.service;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import com.example.repository.MainRepository;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Primary
 @Service
 public abstract class MainService<T extends Model> {
+    @Autowired
     protected final MainRepository<T> repository;
 
     public MainService(MainRepository<T> repository) {

@@ -9,7 +9,7 @@ import java.util.UUID;
 @Component
 public class User implements Model {
 
-    private UUID id;
+    private UUID id=UUID.randomUUID();
     private String name;
     private List<Order> orders = new ArrayList<>();
 
@@ -23,10 +23,11 @@ public class User implements Model {
     }
 
     public User(String name, List<Order> orders) {
-        this.id = UUID.randomUUID();
+        this.id =UUID.randomUUID();
         this.name = name;
         this.orders = orders;
     }
+
 
     public UUID getId() {
         return id;

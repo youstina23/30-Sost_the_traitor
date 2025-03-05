@@ -6,7 +6,7 @@ import java.util.UUID;
 @Component
 public class Product implements Model {
 
-    private UUID id;
+    private UUID id=UUID.randomUUID();
     private String name;
     private double price;
 
