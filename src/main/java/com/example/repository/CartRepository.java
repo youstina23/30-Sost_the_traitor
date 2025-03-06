@@ -7,9 +7,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
+@SuppressWarnings("rawtypes")
 public class CartRepository extends MainRepository<Cart> {
 
-    private static final String DATA_PATH = "./data/carts.json";
+//    private static final String DATA_PATH = System.getenv("CART_DATA_PATH");
+private static final String DATA_PATH = "src/main/java/com/example/data/carts.json";
 
     @Override
     protected String getDataPath() {
@@ -35,7 +37,7 @@ public class CartRepository extends MainRepository<Cart> {
     }
 
     public Cart getCartById(UUID cartId) {
-        return findAll().stream() // Reads from carts.json
+        return findAll().stream()
                 .filter(cart -> cart.getId().equals(cartId))
                 .findFirst()
                 .orElse(null);
@@ -51,17 +53,21 @@ public class CartRepository extends MainRepository<Cart> {
 
     public void addProductToCart(UUID cartId, Product product) {
         ArrayList<Cart> carts = findAll();
-
-        // Find the cart by ID
         Cart cart = carts.stream()
                 .filter(c -> c.getId().equals(cartId))
                 .findFirst()
                 .orElse(null);
 
         if (cart != null) {
-            // Add the new product to the cart's product list
-            cart.getProducts().add(product);
-            saveAll(carts); // Save updated carts list to JSON file
+            System.out.println(cart.getId()+"IDDD");
+            System.out.println(product.getId()+"product id");
+            System.out.println(cart.getProducts());
+
+            List<Product> updatedProducts = new ArrayList<>(cart.getProducts());
+            updatedProducts.add(product);
+            cart.setProducts(updatedProducts);
+            System.out.println(cart.getProducts());
+            saveAll(carts);
         }
     }
 
@@ -70,29 +76,27 @@ public class CartRepository extends MainRepository<Cart> {
     public void deleteProductFromCart(UUID cartId, Product product) {
         ArrayList<Cart> carts = findAll();
 
-        // Find the cart by ID
         Cart cart = carts.stream()
                 .filter(c -> c.getId().equals(cartId))
                 .findFirst()
                 .orElse(null);
 
         if (cart != null) {
-            // Remove the product from the cart's product list
-            cart.getProducts().removeIf(p -> p.getId().equals(product.getId()));
 
-            // Save the updated cart list
+            List<Product> updatedProducts = new ArrayList<>(cart.getProducts());
+            for (Iterator<Product> iterator = updatedProducts.iterator(); iterator.hasNext(); ) {
+                if (iterator.next().getId().equals(product.getId())) {
+                    iterator.remove(); // Remove only the first occurrence
+                    break; // Exit loop after removing one
+                }
+            }
+            cart.setProducts(updatedProducts);
             saveAll(carts);
         }
     }
 
     public void deleteCartById(UUID cartId) {
-        ArrayList<Cart> carts = findAll();
-
-        // Remove the cart with the matching ID
-        carts.removeIf(cart -> cart.getId().equals(cartId));
-
-        // Save the updated carts list back to JSON
-        saveAll(carts);
+        delete(cartId);
     }
 
 
