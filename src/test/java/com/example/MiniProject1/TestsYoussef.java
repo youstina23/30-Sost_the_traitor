@@ -244,9 +244,10 @@ public class TestsYoussef {
         orderService.deleteOrderById(orderId);
 
         // Assert
-        assertThrows(IllegalArgumentException.class, () -> orderService.getOrderById(orderId),
-                "After deletion, fetching the order should throw an exception");
+        assertThrows(ResponseStatusException.class, () -> orderService.getOrderById(orderId),
+                "After deletion, fetching the order should throw a ResponseStatusException");
     }
+
 
     @Test
     void deleteOrderById_nonExistentOrder_throwsException() {
@@ -255,15 +256,17 @@ public class TestsYoussef {
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> orderService.deleteOrderById(randomId));
-        assertEquals("Order not found", exception.getMessage(), "Exception message should match");
+        assertEquals("Order not found", exception.getMessage(), "Exception message should match for non-existent order");
     }
+
 
     @Test
     void deleteOrderById_nullId_throwsException() {
         // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> orderService.deleteOrderById(null));
-        assertEquals("Order not found", exception.getMessage(), "Exception message should match");
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> orderService.deleteOrderById(null));
+        assertEquals("Order ID cannot be null", exception.getMessage(), "Exception message should match for null order ID");
     }
+
 
 
 
