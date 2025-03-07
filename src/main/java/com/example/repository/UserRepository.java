@@ -5,14 +5,16 @@ import com.example.model.Order;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 import java.util.stream.Collectors;
-import com.example.exception.*;
+
 
 @Repository
 @SuppressWarnings("rawtypes")
 public class UserRepository extends MainRepository<User> {
 
-    //    private static final String DATA_PATH = System.getenv("USER_DATA_PATH");;
-    private static final String DATA_PATH = "src/main/java/com/example/data/users.json";
+    private static final String DATA_PATH = System.getenv("USER_DATA_PATH") != null
+            ? System.getenv("USER_DATA_PATH")
+            : "src/main/java/com/example/data/users.json";
+
     private final User user;
 
     @Override
@@ -42,7 +44,7 @@ public class UserRepository extends MainRepository<User> {
 
     public User addUser(User user) {
         if(user.getName() == null || user.getName().isEmpty()) {
-            throw new BadRequestException("User name must not be empty");
+            throw new IllegalArgumentException("Username must not be empty");
         }
         save(user);
         return user;

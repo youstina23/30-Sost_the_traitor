@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import com.example.exception.BadRequestException;
+
 
 @RestController
 @RequestMapping("/user")
@@ -34,7 +34,7 @@ public class UserController {
     @PostMapping("/")
     public User addUser(@RequestBody User user) {
         if(user.getName() == null || user.getName().isEmpty()) {
-            throw new BadRequestException("User name must not be empty");
+            throw new IllegalArgumentException("Username must not be empty");
         }
         return userService.addUser(user);
     }

@@ -10,8 +10,10 @@ import java.util.UUID;
 @Repository
 @SuppressWarnings("rawtypes")
 public class OrderRepository extends MainRepository<Order> {
-//    private static final String DATA_PATH = System.getenv("ORDER_DATA_PATH");
-    private static final String DATA_PATH = "src/main/java/com/example/data/orders.json";
+    private static final String DATA_PATH = System.getenv("ORDER_DATA_PATH") != null
+            ? System.getenv("ORDER_DATA_PATH")
+            : "src/main/java/com/example/data/orders.json";
+
 
     public OrderRepository() {}
 

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.example.exception.BadRequestException;
 import com.example.model.Cart;
 import com.example.model.Model;
 import org.springframework.context.annotation.Primary;
@@ -64,19 +63,10 @@ public abstract class MainRepository<T extends Model> {
         }
     }
 
-    public void save(T data) {
-        try {
-            ArrayList<T> allData = findAll();
-            UUID id = (UUID) data.getClass().getMethod("getId").invoke(data);
-            T prev = findById(id);
-            if (prev != null) {
-                throw new BadRequestException("ID is duplicated");
-            }
-            allData.add(data);
-            saveAll(allData);
-        } catch(Exception e) {
-            throw new BadRequestException("Unable to save data");
-        }
+    public void save(T data){
+        ArrayList<T> allData = findAll();
+        allData.add(data);
+        saveAll(allData);
     }
 
 
@@ -87,15 +77,9 @@ public abstract class MainRepository<T extends Model> {
 
     public void delete(UUID id) {
         ArrayList<T> ts = findAll();
-        int initialLength = ts.size();
 
         ts.removeIf(t -> t.getId().equals(id));
 
-        int finalLength = ts.size();
-
-        if(initialLength == finalLength) {
-            throw new BadRequestException("User not found");
-        }
         saveAll(ts);
     }
 
