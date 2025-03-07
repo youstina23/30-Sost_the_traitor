@@ -5,13 +5,14 @@ import com.example.model.Order;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 import java.util.stream.Collectors;
+import com.example.exception.*;
 
 @Repository
 @SuppressWarnings("rawtypes")
 public class UserRepository extends MainRepository<User> {
 
-//    private static final String DATA_PATH = System.getenv("USER_DATA_PATH");;
-private static final String DATA_PATH = "src/main/java/com/example/data/users.json";
+    //    private static final String DATA_PATH = System.getenv("USER_DATA_PATH");;
+    private static final String DATA_PATH = "src/main/java/com/example/data/users.json";
     private final User user;
 
     @Override
@@ -40,9 +41,13 @@ private static final String DATA_PATH = "src/main/java/com/example/data/users.js
     }
 
     public User addUser(User user) {
+        if(user.getName() == null || user.getName().isEmpty()) {
+            throw new BadRequestException("User name must not be empty");
+        }
         save(user);
         return user;
     }
+
     public List<Order> getOrdersByUserId(UUID userId) {
         User user = getUserById(userId);
         return user.getOrders();
@@ -65,9 +70,18 @@ private static final String DATA_PATH = "src/main/java/com/example/data/users.js
 
     public void removeOrderFromUser(UUID userId, UUID orderId) {
         User user = getUserById(userId);
-        user.setOrders(user.getOrders().stream()
+
+        List<Order> orders = user.getOrders();
+        boolean orderExists = orders.stream().anyMatch(order -> order.getId().equals(orderId));
+
+        if (!orderExists) {
+            throw new RuntimeException("Order not found");
+        }
+
+        user.setOrders(orders.stream()
                 .filter(order -> !order.getId().equals(orderId))
                 .collect(Collectors.toList()));
+
         delete(userId);
         save(user);
     }
