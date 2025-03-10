@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -32,6 +33,9 @@ public class UserController {
 
     @PostMapping("/")
     public User addUser(@RequestBody User user) {
+        if(user.getName() == null || user.getName().isEmpty()) {
+            throw new IllegalArgumentException("Username must not be empty");
+        }
         return userService.addUser(user);
     }
 

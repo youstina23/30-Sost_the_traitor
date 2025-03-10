@@ -6,7 +6,9 @@ import com.example.model.Product;
 import com.example.model.User;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ public class UserService extends MainService<User>{
     CartService cartService;
 
     @Autowired
-    public UserService(UserRepository userRepository, CartService cartService, OrderService orderService) {
+    public UserService(UserRepository userRepository, @Lazy CartService cartService, OrderService orderService) {
         this.userRepository = userRepository;
         this.cartService = cartService;
         this.orderService = orderService;
@@ -29,7 +31,9 @@ public class UserService extends MainService<User>{
 
 
     public User addUser(User user) {
-        return userRepository.addUser(user);
+        if (userRepository.getUserById(user.getId())==null){
+            return userRepository.addUser(user);
+        }else throw new IllegalArgumentException("User ID is duplicated");
 
     }
 
@@ -38,12 +42,17 @@ public class UserService extends MainService<User>{
     }
 
     public User getUserById(UUID userId) {
-        return userRepository.getUserById(userId);
+        if(userId == null) {
+            throw new IllegalArgumentException("User ID must not be null");
+        }
+        User u = userRepository.getUserById(userId);
+        return u;
     }
 
     public List<Order> getOrdersByUserId(UUID userId) {
         return userRepository.getOrdersByUserId(userId);
     }
+
 
     public void addOrderToUser(UUID userId) {
         User user = userRepository.getUserById(userId);
@@ -87,6 +96,10 @@ public class UserService extends MainService<User>{
     }
 
     public void deleteUserById(UUID userId) {
+        User user = userRepository.getUserById(userId);
+        if(user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
         userRepository.deleteUserById(userId);
     }
 

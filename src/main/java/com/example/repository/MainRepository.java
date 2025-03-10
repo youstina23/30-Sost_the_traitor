@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public abstract class MainRepository<T extends Model> {
 
     protected ObjectMapper objectMapper = new ObjectMapper();
-    
+
     protected abstract String getDataPath();
     protected abstract Class<T[]> getArrayType();
 
@@ -83,7 +83,7 @@ public abstract class MainRepository<T extends Model> {
         saveAll(ts);
     }
 
-    
+
 
 
 }
