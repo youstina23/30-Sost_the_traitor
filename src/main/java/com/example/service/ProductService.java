@@ -4,6 +4,8 @@ import com.example.model.Product;
 import com.example.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import java.util.ArrayList;
@@ -27,7 +29,6 @@ public class ProductService extends MainService<Product> {
         return productRepository.addProduct(product);
     }
 
-
     public ArrayList<Product> getProducts() {
         return productRepository.getProducts();
     }
@@ -40,20 +41,19 @@ public class ProductService extends MainService<Product> {
         return product;
     }
 
-
     public Product updateProduct(UUID productId, String newName, double newPrice) {
-        // Validate price
         if (newPrice < 0) {
             throw new IllegalArgumentException("Price cannot be negative");
         }
-
-        // Validate product existence
-        Product existingProduct = productRepository.getProductById(productId);
-        if (existingProduct == null) {
-            throw new RuntimeException("Product not found");
+        if (newName == null || newName.isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
         }
 
-        // Proceed with update
+        Product existingProduct = productRepository.getProductById(productId);
+        if (existingProduct == null) {
+            throw new IllegalArgumentException("Product not found");
+        }
+
         return productRepository.updateProduct(productId, newName, newPrice);
     }
 
@@ -62,6 +62,19 @@ public class ProductService extends MainService<Product> {
         if (discount < 0) {
             throw new IllegalArgumentException("Discount cannot be negative");
         }
+
+        List<UUID> missingProductIds = new ArrayList<>();
+
+        for (UUID productId : productIds) {
+            if (productRepository.getProductById(productId) == null) {
+                missingProductIds.add(productId);
+            }
+        }
+
+        if (!missingProductIds.isEmpty()) {
+            throw new RuntimeException("Products not found: " + missingProductIds);
+        }
+
         productRepository.applyDiscount(discount, productIds);
     }
 
@@ -73,15 +86,24 @@ public class ProductService extends MainService<Product> {
 
         Product product = productRepository.getProductById(productId);
         if (product == null) {
-            throw new NoSuchElementException("Product with ID " + productId + " does not exist.");
+            throw new IllegalArgumentException("Product with ID " + productId + " does not exist.");
         }
 
         productRepository.deleteProductById(productId);
 
-        // Ensure the product is actually deleted
         if (productRepository.getProductById(productId) != null) {
-            throw new NoSuchElementException("Product with ID " + productId + " still exists after deletion.");
+            throw new IllegalArgumentException("Product with ID " + productId + " still exists after deletion.");
         }
     }
+
+    public Product findProductByNameAndPrice(String name, double price) {
+        for (Product product : this.getProducts()) {
+            if (product.getName().equals(name) && product.getPrice() == price) {
+                return product;
+            }
+        }
+        return null;
+    }
+
 
 }

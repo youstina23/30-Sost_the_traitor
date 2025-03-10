@@ -6,6 +6,7 @@ import com.example.model.Product;
 import com.example.model.User;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 
@@ -22,7 +23,7 @@ public class UserService extends MainService<User>{
     CartService cartService;
 
     @Autowired
-    public UserService(UserRepository userRepository, CartService cartService, OrderService orderService) {
+    public UserService(UserRepository userRepository, @Lazy CartService cartService, OrderService orderService) {
         this.userRepository = userRepository;
         this.cartService = cartService;
         this.orderService = orderService;
@@ -42,7 +43,7 @@ public class UserService extends MainService<User>{
 
     public User getUserById(UUID userId) {
         if(userId == null) {
-            throw new IllegalArgumentException("Username must not be null");
+            throw new IllegalArgumentException("User ID must not be null");
         }
         User u = userRepository.getUserById(userId);
         return u;

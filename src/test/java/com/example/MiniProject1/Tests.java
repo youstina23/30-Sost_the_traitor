@@ -801,21 +801,19 @@ public class Tests {
         Product unchangedProduct = productRepository.getProductById(product.getId());
         assertEquals(100.0, unchangedProduct.getPrice());
     }
+
     @Test
-    void applyDiscount_emptyProductList_doesNotCallRepository() {
-        // Arrange
+    void applyDiscount_nonExistentProduct_throwsRuntimeException() {
         double discount = 10.0;
-        Product product = new Product(UUID.randomUUID(), "Product A", 100.0);
-        productRepository.addProduct(product);
+        UUID nonExistentProductId = UUID.randomUUID();
+        ArrayList<UUID> productIds = new ArrayList<>();
+        productIds.add(nonExistentProductId);
 
-        ArrayList<UUID> emptyProductIds = new ArrayList<>();
+        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+                productService.applyDiscount(discount, productIds)
+        );
 
-        // Act
-        productService.applyDiscount(discount, emptyProductIds);
-
-        // Assert
-        Product unchangedProduct = productRepository.getProductById(product.getId());
-        assertEquals(100.0, unchangedProduct.getPrice()); // Ensure no changes were made
+        assertTrue(exception.getMessage().contains(nonExistentProductId.toString()));
     }
 
     @Test
@@ -834,20 +832,16 @@ public class Tests {
 
     @Test
     void deleteProductById_multipleDeletions_shouldHandleGracefully() {
-        // Arrange
         UUID productId = UUID.randomUUID();
         Product product = new Product(productId, "Test Product", 100.0);
 
-        // Save product to database
         productRepository.save(product);
         assertNotNull(productRepository.getProductById(productId), "Product should exist before deletion");
 
-        // Act - First deletion
         productService.deleteProductById(productId);
 
-        // Assert - Ensure the product is deleted
-        assertThrows(NoSuchElementException.class, () -> productService.deleteProductById(productId),
-                "Deleting the same product twice should throw NoSuchElementException");
+        assertThrows(IllegalArgumentException.class, () -> productService.deleteProductById(productId),
+                "Deleting the same product twice should throw IllegalArgumentException");
     }
 
 
@@ -862,11 +856,15 @@ public class Tests {
     //--------------------------------------Cart Tests-------------------------------
 
     @Test
-    void addCart_validCart_cartAdded() throws Exception {
+    void addCart_validCart_cartAdded() {
         // Arrange
+        UUID existingUserId = UUID.randomUUID();
+        User existingUser = new User(existingUserId, "John", new ArrayList<>());
+        userService.addUser(existingUser);
+
         Cart cart = new Cart();
         cart.setId(cartId);
-        cart.setUserId(userId);
+        cart.setUserId(existingUser.getId());
         cart.setProducts(new ArrayList<>());
 
         // Act
@@ -874,7 +872,7 @@ public class Tests {
 
         // Assert
         boolean found = false;
-        for (Cart storedCart : getCarts()) {
+        for (Cart storedCart : cartService.getCarts()) {
             if (storedCart.getId().equals(cartId)) {
                 found = true;
                 break;
@@ -883,13 +881,19 @@ public class Tests {
         assertTrue(found, "Cart should be added correctly");
     }
 
+
     @Test
     void addCart_cartWithProducts_productsPersisted() {
         // Arrange
+        UUID existingUserId = UUID.randomUUID();
+        User existingUser = new User(existingUserId, "John", new ArrayList<>());
+        userService.addUser(existingUser);
+
         Cart cart = new Cart();
         cart.setId(cartId);
-        cart.setUserId(userId);
-        Product product  = new Product(UUID.randomUUID(), "Gebna", 15.0);
+        cart.setUserId(existingUser.getId());
+
+        Product product = new Product(UUID.randomUUID(), "Gebna", 15.0);
         List<Product> updatedProducts = new ArrayList<>(cart.getProducts());
         updatedProducts.add(product);
         cart.setProducts(updatedProducts);
@@ -903,6 +907,7 @@ public class Tests {
         assertEquals("Gebna", addedCart.getProducts().get(0).getName(), "The product name should match");
     }
 
+
     @Test
     void addCart_nullCart_nullException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> cartService.addCart(null));
@@ -912,18 +917,22 @@ public class Tests {
     @Test
     void getCarts_manyCarts_allCarts() {
         // Arrange
+        User user1 = new User("User One", new ArrayList<>());
+        User user2 = new User("User Two", new ArrayList<>());
+
+        userService.addUser(user1);
+        userService.addUser(user2);
+
         Cart cart1 = new Cart();
         cart1.setId(UUID.randomUUID());
-        cart1.setUserId(userId);
+        cart1.setUserId(user1.getId());
 
         Cart cart2 = new Cart();
         cart2.setId(UUID.randomUUID());
-        cart2.setUserId(UUID.randomUUID());
+        cart2.setUserId(user2.getId());
 
         cartService.addCart(cart1);
         cartService.addCart(cart2);
-
-        System.out.println("Stored carts: " + cartService.getCarts());
 
         // Act
         ArrayList<Cart> carts = cartService.getCarts();

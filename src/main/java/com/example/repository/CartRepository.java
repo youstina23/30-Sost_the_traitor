@@ -61,14 +61,10 @@ public class CartRepository extends MainRepository<Cart> {
                 .orElse(null);
 
         if (cart != null) {
-            System.out.println(cart.getId()+"IDDD");
-            System.out.println(product.getId()+"product id");
-            System.out.println(cart.getProducts());
 
             List<Product> updatedProducts = new ArrayList<>(cart.getProducts());
             updatedProducts.add(product);
             cart.setProducts(updatedProducts);
-            System.out.println(cart.getProducts());
             saveAll(carts);
         }
     }
